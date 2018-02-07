@@ -76,7 +76,7 @@ function processV1Request(prequest, presponse) {
 
                     app.ask(
                         app.buildRichResponse()
-                            .addBasicCard(app.buildBasicCard(syn)
+                            .addBasicCard(app.buildBasicCard("")
                                 .setImageDisplay('WHITE')
                                 .setTitle(title)
                                 .setImage(poster, 'Кадр из трейлера'))
