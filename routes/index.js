@@ -26,9 +26,11 @@ function processV1Request(prequest, presponse) {
         'input.trailer': () => {
             console.log(inputContexts);
             console.log(parameters);
+            console.log(inputContexts.length);
 
             let contextSearchResult = "";
-            for (let ctx in inputContexts) {
+            for (var i = 0;i<inputContexts.length;i++) {
+                var ctx = inputContexts[i];
                 console.log(ctx);
                 let name = ctx.name;
                 console.log("name:" + name);
