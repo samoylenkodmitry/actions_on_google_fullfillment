@@ -29,7 +29,8 @@ function processV1Request(prequest, presponse) {
             console.log(inputContexts.length);
 
             let contextSearchResult = "";
-            for (var i = 0;i<inputContexts.length;i++) {
+            let id = -1;
+            for (var i = 0; i < inputContexts.length; i++) {
                 var ctx = inputContexts[i];
                 console.log(ctx);
                 let name = ctx.name;
@@ -40,14 +41,22 @@ function processV1Request(prequest, presponse) {
                     console.log(ctxParams.any);
                     contextSearchResult = ctxParams.any;
 
-                    break;
+                }
+                if ("search_result_val" == name) {
+                    console.log(ctx.parameters);
+                    let ctxParams = ctx.parameters;
+                    console.log(ctxParams.id);
+                    contextSearchResult = ctxParams.id;
+
                 }
             }
-            let byIdUrl = "https://api.ivi.ru/mobileapi/videoinfo/v5/?id=146597&app_version=10773";
+
+            let byIdUrl = "https://api.ivi.ru/mobileapi/videoinfo/v5/?id=" + id + "&app_version=10773";
             let reqURL = "https://api.ivi.ru/mobileapi/search/v5/?from=0&to=0&app_version=870&query="
                 + encodeURIComponent(contextSearchResult);
+            let u = id > 0 ? byIdUrl : reqURL;
             console.log('url=' + reqURL);
-            doRequest(reqURL, (error, response) => {
+            doRequest(u, (error, response) => {
                 if (error) {
                     sendResponse('Что-то не могу ответить...')
                 } else {
@@ -65,15 +74,13 @@ function processV1Request(prequest, presponse) {
                     let desc = result.duration;
                     let syn = result.synopsis;
 
+                    app.setContext("search_result_val", 5, {
+                        "id": id
+                    });
                     app.ask(
                         app.buildRichResponse()
                             .addSuggestions(['o_O', 'Продолжи', 'Трейлер', 'Описание'])
-                            .addBasicCard(app.buildBasicCard(syn)
-                                .setImageDisplay('WHITE')
-                                .setSubtitle(desc)
-                                .setTitle(title)
-                                .addButton('Трейлер', 'https://www.ivi.ru/watch/' + id + '/trailers#play')
-                                .setImage(poster, 'Постер фильма'))
+                            .addSuggestionLink('Описание', 'https://www.ivi.ru/watch/' + id + '/trailers#play')
                             .addSimpleResponse({
                                 speech: 'а вот и трейлер к ' + title,
                                 displayText: 'нашелся трейлер!!'
