@@ -30,7 +30,8 @@ function processV1Request(prequest, presponse) {
             let contextSearchResult = "";
             for (let ctx in inputContexts) {
                 console.log(ctx);
-                if ("search_result".equals(ctx.name)) {
+                let name = ctx.name;
+                if ("search_result"== name) {
                     console.log(ctx.parameters);
                     let ctxParams = ctx.parameters;
                     console.log(ctxParams.any);
