@@ -68,7 +68,7 @@ function processV1Request(prequest, presponse) {
                         sendResponse('Что-то ничего не нашлось');
                         return;
                     }
-                    let result = body.result[0];
+                    let result = id === -1 ? body.result[0] : body.result;
                     let poster = result.additional_data[0].preview;
                     let title = result.title;
                     let id = result.id;
