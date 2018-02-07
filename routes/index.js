@@ -31,7 +31,8 @@ function processV1Request(prequest, presponse) {
             for (let ctx in inputContexts) {
                 console.log(ctx);
                 let name = ctx.name;
-                if ("search_result"== name) {
+                console.log("name:" + name);
+                if ("search_result" == name) {
                     console.log(ctx.parameters);
                     let ctxParams = ctx.parameters;
                     console.log(ctxParams.any);
