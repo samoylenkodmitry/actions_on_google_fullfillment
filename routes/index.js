@@ -57,6 +57,7 @@ function processV1Request(prequest, presponse) {
                 + encodeURIComponent(contextSearchResult);
             let u = id === -1 ? reqURL : byIdUrl;
             console.log('url=' + u);
+            let isById = id !== -1;
             doRequest(u, (error, response) => {
                 if (error) {
                     sendResponse('Что-то не могу ответить...')
@@ -68,7 +69,7 @@ function processV1Request(prequest, presponse) {
                         sendResponse('Что-то ничего не нашлось');
                         return;
                     }
-                    let result = id === -1 ? body.result[0] : body.result;
+                    let result = isById ? body.result : body.result[0];
                     let poster = result.additional_data[0].preview;
                     let title = result.title;
                     let id = result.id;
