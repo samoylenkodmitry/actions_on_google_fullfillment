@@ -76,9 +76,12 @@ function processV1Request(prequest, presponse) {
 
                     app.ask(
                         app.buildRichResponse()
+                            .addBasicCard(app.buildBasicCard(syn)
+                                .setImageDisplay('WHITE')
+                                .setTitle(title)
+                                .setImage(poster, 'Кадр из трейлера'))
                             .addSuggestions(['o_O', 'Продолжи', 'Описание'])
                             .addSuggestionLink('Смотреть трейлер', 'https://www.ivi.ru/watch/' + id + '/trailers#play')
-                            .setImage(poster, 'Постер фильма')
                             .addSimpleResponse({
                                 speech: 'а вот и трейлер к ' + title,
                                 displayText: 'нашелся трейлер!!'
