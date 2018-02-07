@@ -51,11 +51,12 @@ function processV1Request(prequest, presponse) {
                 }
             }
 
+            console.log(id);
             let byIdUrl = "https://api.ivi.ru/mobileapi/videoinfo/v5/?id=" + id + "&app_version=10773";
             let reqURL = "https://api.ivi.ru/mobileapi/search/v5/?from=0&to=0&app_version=870&query="
                 + encodeURIComponent(contextSearchResult);
-            let u = id > 0 ? byIdUrl : reqURL;
-            console.log('url=' + reqURL);
+            let u = id === -1 ? reqURL : byIdUrl;
+            console.log('url=' + u);
             doRequest(u, (error, response) => {
                 if (error) {
                     sendResponse('Что-то не могу ответить...')
