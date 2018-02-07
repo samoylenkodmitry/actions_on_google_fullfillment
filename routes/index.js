@@ -69,16 +69,15 @@ function processV1Request(prequest, presponse) {
                         return;
                     }
                     let result = body.result[0];
-                    let poster = result.poster_originals[0].path;
+                    let poster = result.additional_data[0].preview;
                     let title = result.title;
                     let id = result.id;
-                    let desc = result.duration;
-                    let syn = result.synopsis;
 
                     app.ask(
                         app.buildRichResponse()
                             .addSuggestions(['o_O', 'Продолжи', 'Описание'])
                             .addSuggestionLink('Смотреть трейлер', 'https://www.ivi.ru/watch/' + id + '/trailers#play')
+                            .setImage(poster, 'Постер фильма')
                             .addSimpleResponse({
                                 speech: 'а вот и трейлер к ' + title,
                                 displayText: 'нашелся трейлер!!'
