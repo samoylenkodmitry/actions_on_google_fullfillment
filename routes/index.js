@@ -46,7 +46,7 @@ function processV1Request(prequest, presponse) {
                     console.log(ctx.parameters);
                     let ctxParams = ctx.parameters;
                     console.log(ctxParams.id);
-                    contextSearchResult = ctxParams.id;
+                    id = ctxParams.id;
 
                 }
             }
@@ -74,13 +74,10 @@ function processV1Request(prequest, presponse) {
                     let desc = result.duration;
                     let syn = result.synopsis;
 
-                    app.setContext("search_result_val", 5, {
-                        "id": id
-                    });
                     app.ask(
                         app.buildRichResponse()
-                            .addSuggestions(['o_O', 'Продолжи', 'Трейлер', 'Описание'])
-                            .addSuggestionLink('Описание', 'https://www.ivi.ru/watch/' + id + '/trailers#play')
+                            .addSuggestions(['o_O', 'Продолжи', 'Описание'])
+                            .addSuggestionLink('Смотреть трейлер', 'https://www.ivi.ru/watch/' + id + '/trailers#play')
                             .addSimpleResponse({
                                 speech: 'а вот и трейлер к ' + title,
                                 displayText: 'нашелся трейлер!!'
@@ -114,6 +111,9 @@ function processV1Request(prequest, presponse) {
                     let desc = result.duration;
                     let syn = result.synopsis;
 
+                    app.setContext("search_result_val", 5, {
+                        "id": id
+                    });
                     app.ask(
                         app.buildRichResponse()
                             .addSuggestionLink('Описание', 'https://www.ivi.ru/watch/' + id + '/description')

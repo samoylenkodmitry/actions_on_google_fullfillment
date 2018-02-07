@@ -20,8 +20,26 @@
       <file leaf-file-name="index.js" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/routes/index.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="252">
-              <caret line="67" column="27" selection-start-line="67" selection-start-column="27" selection-end-line="67" selection-end-column="27" />
+            <state>
+              <caret line="49" lean-forward="true" selection-start-line="49" selection-end-line="49" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name=".gitignore" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/.gitignore">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="36">
+              <caret line="2" lean-forward="true" selection-start-line="2" selection-end-line="2" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="dialogflow-app.js" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/node_modules/actions-on-google/dialogflow-app.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="297">
+              <caret line="771" column="2" selection-start-line="771" selection-start-column="2" selection-end-line="771" selection-end-column="2" />
             </state>
           </provider>
         </entry>
@@ -142,7 +160,7 @@
       <workItem from="1517841557065" duration="298000" />
       <workItem from="1518025037105" duration="1422000" />
       <workItem from="1518026470371" duration="2435000" />
-      <workItem from="1518029818002" duration="1519000" />
+      <workItem from="1518029818002" duration="2064000" />
     </task>
     <task id="LOCAL-00001" summary="input.trailer">
       <created>1518029945050</created>
@@ -165,11 +183,18 @@
       <option name="project" value="LOCAL" />
       <updated>1518030351283</updated>
     </task>
-    <option name="localTasksCounter" value="4" />
+    <task id="LOCAL-00004" summary="input.trailer">
+      <created>1518031714458</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1518031714458</updated>
+    </task>
+    <option name="localTasksCounter" value="5" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="18214000" />
+    <option name="totallyTimeSpent" value="18759000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="17" y="27" width="1914" height="1053" extended-state="0" />
@@ -247,13 +272,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/node_modules/actions-on-google/dialogflow-app.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="297">
-          <caret line="771" column="2" selection-start-line="771" selection-start-column="2" selection-end-line="771" selection-end-column="2" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/node_modules/actions-on-google/response-builder.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="277">
@@ -282,6 +300,13 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/node_modules/actions-on-google/dialogflow-app.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="297">
+          <caret line="771" column="2" selection-start-line="771" selection-start-column="2" selection-end-line="771" selection-end-column="2" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/.gitignore">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="36">
@@ -291,8 +316,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/routes/index.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="252">
-          <caret line="67" column="27" selection-start-line="67" selection-start-column="27" selection-end-line="67" selection-end-column="27" />
+        <state>
+          <caret line="49" lean-forward="true" selection-start-line="49" selection-end-line="49" />
         </state>
       </provider>
     </entry>
