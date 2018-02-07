@@ -26,7 +26,19 @@ function processV1Request(prequest, presponse) {
         'input.trailer': () => {
             console.log(inputContexts);
             console.log(parameters);
-            let contextSearchResult = inputContexts[search_result];
+
+            let contextSearchResult = "";
+            for (let ctx in inputContexts) {
+                console.log(ctx);
+                if ("search_result".equals(ctx.name)) {
+                    console.log(ctx.parameters);
+                    let ctxParams = ctx.parameters;
+                    console.log(ctxParams.any);
+                    contextSearchResult = ctxParams.any;
+
+                    break;
+                }
+            }
             let byIdUrl = "https://api.ivi.ru/mobileapi/videoinfo/v5/?id=146597&app_version=10773";
             let reqURL = "https://api.ivi.ru/mobileapi/search/v5/?from=0&to=0&app_version=870&query="
                 + encodeURIComponent(contextSearchResult);
