@@ -91,50 +91,7 @@ function processV1Request(prequest, presponse) {
             });
         },
         'input.search': () => {
-            console.log(parameters);
-            let paramQuery = parameters.any;
-            console.log('query=' + paramQuery);
-            let reqURL = "https://api.ivi.ru/mobileapi/search/v5/?from=0&to=0&app_version=870&query="
-                + encodeURIComponent(paramQuery);
-            console.log('url=' + reqURL);
-            doRequest(reqURL, (error, response) => {
-                if (error) {
-                    sendResponse('Что-то не могу ответить...')
-                } else {
-                    console.log('body 1: ' + JSON.stringify(response.body));
-                    console.log('body 2: ' + response.body);
-                    let body = JSON.parse(response.body);
-                    if (body.result.length === 0) {
-                        sendResponse('Что-то ничего не нашлось');
-                        return;
-                    }
-                    let result = body.result[0];
-                    let poster = result.poster_originals[0].path;
-                    let title = result.title;
-                    let id = result.id;
-                    let desc = result.duration;
-                    let syn = result.synopsis;
-
-                    app.setContext("search_result_val", 5, {
-                        "id": id
-                    });
-                    app.ask(
-                        app.buildRichResponse()
-                            .addSuggestionLink('Описание', 'https://www.ivi.ru/watch/' + id + '/description')
-                            .addSuggestions(['o_O', 'Продолжи', 'Трейлер', 'Описание'])
-                            .addBasicCard(app.buildBasicCard(syn)
-                                .setImageDisplay('WHITE')
-                                .setSubtitle(desc)
-                                .setTitle(title)
-                                .addButton('Смотреть', 'https://www.ivi.ru/watch/' + id)
-                                .setImage(poster, 'Постер фильма'))
-                            .addSimpleResponse({
-                                speech: 'Будете смотреть ' + title + '? ' + syn + ' Впрочем, о чем это я? Купите подписку!',
-                                displayText: '💁 Купите подписку!'
-                            })
-                    );
-                }
-            });
+            searchIntent(app, parameters);
         },
         'input.continuewatch': () => {
             let reqURL = "https://api.ivi.ru/mobileapi/collection/catalog/v5/?id=4655&from=0&to=0";
@@ -149,7 +106,6 @@ function processV1Request(prequest, presponse) {
                     let id = result.id;
                     let desc = result.duration;
                     let syn = result.synopsis;
-
                     app.ask(
                         app.buildRichResponse()
                             .addSuggestionLink('Описание', 'https://www.ivi.ru/watch/' + id + '/description')
@@ -189,5 +145,48 @@ function processV1Request(prequest, presponse) {
 
         presponse.json(responseJson); // Send response to Dialogflow
     }
+
+    function searchIntent(app, parameters) {
+        console.log(parameters);
+        let paramQuery = parameters.any;
+        console.log('query=' + paramQuery);
+        let reqURL = "https://api.ivi.ru/mobileapi/search/v5/?from=0&to=4&app_version=870&query="
+            + encodeURIComponent(paramQuery);
+        console.log('url=' + reqURL);
+
+
+        doRequest(reqURL, (error, response) => {
+            if (error) {
+                sendResponse('Что-то не могу ответить...');
+            } else {
+                console.log('body 1: ' + JSON.stringify(response.body));
+                console.log('body 2: ' + response.body);
+                let body = JSON.parse(response.body);
+                if (body.result.length === 0) {
+                    sendResponse('Что-то ничего не нашлось');
+                    return;
+                }
+                let result = body.result;
+
+                const carousel = app.buildCarousel();
+                var i;
+                for (i=0; i< result.length; i++) {
+                    let item = body.result[i];
+                    carousel.addItems(app.buildOptionItem("SELECTION_KEY_ONE" + item.id,
+                        ['synonym of KEY_ONE 1' + item.id, 'synonym of KEY_ONE 2' + item.id])
+                        .setTitle(item.title.toString())
+                        .setDescription(item.description.toString())
+                        .setImage(item.poster_originals[0].path, 'image'));
+
+                }
+
+                app.askWithCarousel('Вот что я нашел для вас:',
+                    carousel
+                );
+            }
+        });
+    }
+
+
 }
 
