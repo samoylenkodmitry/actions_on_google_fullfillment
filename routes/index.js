@@ -19,11 +19,11 @@ exports.dialogflowFirebaseFulfillment = functions.https.onRequest((request, resp
 function processV1Request(prequest, presponse) {
     console.log("in vi request");
     let action = prequest.body.result.action;
-    console.log("got action: " + action);
+    console.log("got action: " + JSON.stringify(action));
     let parameters = prequest.body.result.parameters;
-    console.log("got params: " + parameters);
+    console.log("got params: " + JSON.stringify(parameters));
     let inputContexts = prequest.body.result.contexts;
-    console.log("got context: " + inputContexts);
+    console.log("got context: " + JSON.stringify(inputContexts));
     const app = new DialogflowApp({request: prequest, response: presponse});
 
     const actionHandlers = {
