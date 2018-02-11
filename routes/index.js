@@ -353,7 +353,7 @@ function processV1Request(prequest, presponse) {
                 let resolvedId = result.id;
                 let resolvedTitle = result.title;
 
-                let recommendationsUrl = "https://api.ivi.ru/mobileapi/hydra/get/recommendation/v5/?scenario_id=MAIN_PAGE&top=5&id="
+                let recommendationsUrl = "https://api.ivi.ru/mobileapi/hydra/get/recommendation/v5/?scenario_id=ITEM_PAGE&top=5&id="
                     + resolvedId + "&app_version=10773";
 
                 console.log(recommendationsUrl);
