@@ -122,6 +122,9 @@ function processV1Request(prequest, presponse) {
                         app.setContext("search_result", 5, {
                             "any": item.title
                         });
+                        app.setContext("search_result_kind", 5, {
+                            "kind": item.kind
+                        });
                     }
                 }
 
@@ -141,6 +144,7 @@ function processV1Request(prequest, presponse) {
 
         let contextSearchResult = "";
         let id = -1;
+        let kind = 1;
         for (var i = 0; i < inputContexts.length; i++) {
             var ctx = inputContexts[i];
             console.log(ctx);
@@ -160,10 +164,17 @@ function processV1Request(prequest, presponse) {
                 id = ctxParams.id;
 
             }
+            if ("search_result_kind" == name) {
+                console.log(ctx.parameters);
+                let ctxParams = ctx.parameters;
+                console.log(ctxParams.kind);
+                kind = ctxParams.kind;
+
+            }
         }
 
         console.log(id);
-        let byIdUrl = "https://api.ivi.ru/mobileapi/videoinfo/v5/?id=" + id + "&app_version=10773";
+        let byIdUrl = "https://api.ivi.ru/mobileapi/" + (kind == 1 ? "videoinfo" : "compilationinfo") + "/v5/?id=" + id + "&app_version=10773";
         let reqURL = "https://api.ivi.ru/mobileapi/search/v5/?from=0&to=0&app_version=870&query="
             + encodeURIComponent(contextSearchResult);
         let u = id === -1 ? reqURL : byIdUrl;
@@ -191,6 +202,9 @@ function processV1Request(prequest, presponse) {
                 });
                 app.setContext("search_result", 5, {
                     "any": title
+                });
+                app.setContext("search_result_kind", 5, {
+                    "kind": result.kind
                 });
 
                 app.ask(
@@ -220,6 +234,7 @@ function processV1Request(prequest, presponse) {
 
         let contextSearchResult = "";
         let id = -1;
+        let kind = 1;
         for (var i = 0; i < inputContexts.length; i++) {
             var ctx = inputContexts[i];
             console.log(ctx);
@@ -239,10 +254,17 @@ function processV1Request(prequest, presponse) {
                 id = ctxParams.id;
 
             }
+            if ("search_result_kind" == name) {
+                console.log(ctx.parameters);
+                let ctxParams = ctx.parameters;
+                console.log(ctxParams.kind);
+                kind = ctxParams.kind;
+
+            }
         }
 
         console.log(id);
-        let byIdUrl = "https://api.ivi.ru/mobileapi/videoinfo/v5/?id=" + id + "&app_version=10773";
+        let byIdUrl = "https://api.ivi.ru/mobileapi/" + (kind == 1 ? "videoinfo" : "compilationinfo") + "/v5/?id=" + id + "&app_version=10773";
         let reqURL = "https://api.ivi.ru/mobileapi/search/v5/?from=0&to=0&app_version=870&query="
             + encodeURIComponent(contextSearchResult);
         let u = id === -1 ? reqURL : byIdUrl;
@@ -270,6 +292,9 @@ function processV1Request(prequest, presponse) {
                 });
                 app.setContext("search_result", 5, {
                     "any": title
+                });
+                app.setContext("search_result_kind", 5, {
+                    "kind": result.kind
                 });
 
                 app.ask(
@@ -309,6 +334,9 @@ function processV1Request(prequest, presponse) {
                 app.setContext("search_result", 5, {
                     "any": title
                 });
+                app.setContext("search_result_kind", 5, {
+                    "kind": result.kind
+                });
                 app.ask(
                     app.buildRichResponse()
                         .addSuggestionLink('Описание', 'https://www.ivi.ru/watch/' + id + '/description')
@@ -336,6 +364,7 @@ function processV1Request(prequest, presponse) {
 
         let contextSearchResult = "";
         let id = -1;
+        let kind = 1;
         for (var i = 0; i < inputContexts.length; i++) {
             var ctx = inputContexts[i];
             console.log(ctx);
@@ -355,10 +384,17 @@ function processV1Request(prequest, presponse) {
                 id = ctxParams.id;
 
             }
+            if ("search_result_kind" == name) {
+                console.log(ctx.parameters);
+                let ctxParams = ctx.parameters;
+                console.log(ctxParams.kind);
+                kind = ctxParams.kind;
+
+            }
         }
 
         console.log(id);
-        let byIdUrl = "https://api.ivi.ru/mobileapi/videoinfo/v5/?id=" + id + "&fields=id,title&app_version=10773";
+        let byIdUrl = "https://api.ivi.ru/mobileapi/" + (kind == 1 ? "videoinfo" : "compilationinfo") + "/v5/?id=" + id + "&fields=id,title&app_version=10773";
         let reqURL = "https://api.ivi.ru/mobileapi/search/v5/?from=0&to=0&app_version=870&fields=id,title&query="
             + encodeURIComponent(contextSearchResult);
         let u = id === -1 ? reqURL : byIdUrl;
@@ -414,6 +450,9 @@ function processV1Request(prequest, presponse) {
                             if (i === 0) {
                                 app.setContext("search_result_val", 5, {
                                     "id": item.id
+                                });
+                                app.setContext("search_result_kind", 5, {
+                                    "kind": item.kind
                                 });
                                 app.setContext("search_result", 5, {
                                     "any": item.title
