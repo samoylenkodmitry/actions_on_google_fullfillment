@@ -270,7 +270,7 @@ function processV1Request(prequest, presponse) {
             } else {
                 let body = JSON.parse(response.body);
                 let result = body.result[0];
-                let poster = item.poster_originals.length > 0 ? item.poster_originals[0].path : "";
+                let poster = body.poster_originals.length > 0 ? body.poster_originals[0].path : "";
                 let title = result.title;
                 let id = result.id;
                 let desc = result.duration;
