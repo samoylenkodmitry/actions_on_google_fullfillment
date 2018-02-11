@@ -115,6 +115,14 @@ function processV1Request(prequest, presponse) {
                         .setDescription(item.description.toString())
                         .setImage(poster, 'image'));
 
+                    if (i === 0) {
+                        app.setContext("search_result_val", 5, {
+                            "id": item.id
+                        });
+                        app.setContext("search_result", 5, {
+                            "any": item.title
+                        });
+                    }
                 }
 
                 app.askWithCarousel('Вот что нашлось:',
@@ -178,6 +186,12 @@ function processV1Request(prequest, presponse) {
                 let id = result.id;
                 let desc = result.duration;
                 let syn = result.synopsis;
+                app.setContext("search_result_val", 5, {
+                    "id": id
+                });
+                app.setContext("search_result", 5, {
+                    "any": title
+                });
 
                 app.ask(
                     app.buildRichResponse()
@@ -251,6 +265,12 @@ function processV1Request(prequest, presponse) {
                     result.poster_originals.length > 0 ? result.poster_originals[0].path : "";
                 let title = result.title;
                 let id = result.id;
+                app.setContext("search_result_val", 5, {
+                    "id": id
+                });
+                app.setContext("search_result", 5, {
+                    "any": title
+                });
 
                 app.ask(
                     app.buildRichResponse()
@@ -283,6 +303,12 @@ function processV1Request(prequest, presponse) {
                 let id = result.id;
                 let desc = result.duration;
                 let syn = result.synopsis;
+                app.setContext("search_result_val", 5, {
+                    "id": id
+                });
+                app.setContext("search_result", 5, {
+                    "any": title
+                });
                 app.ask(
                     app.buildRichResponse()
                         .addSuggestionLink('Описание', 'https://www.ivi.ru/watch/' + id + '/description')
@@ -385,6 +411,14 @@ function processV1Request(prequest, presponse) {
                                 .setImage(poster, 'image')
                             );
 
+                            if (i === 0) {
+                                app.setContext("search_result_val", 5, {
+                                    "id": item.id
+                                });
+                                app.setContext("search_result", 5, {
+                                    "any": item.title
+                                });
+                            }
                         }
 
                         app.askWithCarousel('Вот фильмы похожие на ' + resolvedTitle,
