@@ -112,7 +112,9 @@ function processV1Request(prequest, presponse) {
 
                 app.askWithCarousel('Вот что я нашел для вас:',
                     carousel
-                );
+                )
+                    .addSuggestions(['Описание', 'Трейлер'])
+                ;
             }
         });
     }
