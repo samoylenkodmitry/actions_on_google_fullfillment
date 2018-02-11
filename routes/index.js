@@ -19,11 +19,11 @@ exports.dialogflowFirebaseFulfillment = functions.https.onRequest((request, resp
 function processV1Request(prequest, presponse) {
     console.log("in vi request");
     let action = prequest.body.result.action;
-    console.log("got action: "+action);
+    console.log("got action: " + action);
     let parameters = prequest.body.result.parameters;
-    console.log("got params: "+parameters);
+    console.log("got params: " + parameters);
     let inputContexts = prequest.body.result.contexts;
-    console.log("got context: "+inputContexts);
+    console.log("got context: " + inputContexts);
     const app = new DialogflowApp({request: prequest, response: presponse});
 
     const actionHandlers = {
@@ -99,7 +99,7 @@ function processV1Request(prequest, presponse) {
 
                 const carousel = app.buildCarousel();
                 var i;
-                for (i=0; i< result.length; i++) {
+                for (i = 0; i < result.length; i++) {
                     let item = body.result[i];
                     carousel.addItems(app.buildOptionItem("SELECTION_KEY_ONE" + item.id,
                         ['synonym of KEY_ONE 1' + item.id, 'synonym of KEY_ONE 2' + item.id])
@@ -164,7 +164,7 @@ function processV1Request(prequest, presponse) {
                     return;
                 }
                 let result = isById ? body.result : body.result[0];
-                let poster = result.additional_data[0].preview;
+                let poster = result.poster_originals[0].path;
                 let title = result.title;
                 let id = result.id;
                 let desc = result.duration;
@@ -237,7 +237,10 @@ function processV1Request(prequest, presponse) {
                     return;
                 }
                 let result = isById ? body.result : body.result[0];
-                let poster = result.additional_data[0].preview;
+                let poster = result.additional_data.length > 0 ?
+                    result.additional_data[0].preview :
+                    item.poster_originals[0].path
+                ;
                 let title = result.title;
                 let id = result.id;
 
