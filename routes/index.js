@@ -55,6 +55,10 @@ function processV1Request(prequest, presponse) {
             searchIntent(app, parameters);
         },
 
+        'input.unknown': () => {
+            searchIntent(app, parameters);
+        },
+
         'input.search_select': () => {
             searchSelectIntent(app, parameters);
         },
