@@ -20,8 +20,8 @@
       <file leaf-file-name="index.js" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/routes/index.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="774">
-              <caret line="298" lean-forward="true" selection-start-line="298" selection-end-line="298" />
+            <state relative-caret-position="252">
+              <caret line="346" column="37" selection-start-line="346" selection-start-column="37" selection-end-line="346" selection-end-column="37" />
             </state>
           </provider>
         </entry>
@@ -197,7 +197,7 @@
       <workItem from="1518025037105" duration="1422000" />
       <workItem from="1518026470371" duration="2435000" />
       <workItem from="1518029818002" duration="3494000" />
-      <workItem from="1518342735465" duration="6500000" />
+      <workItem from="1518342735465" duration="8549000" />
     </task>
     <task id="LOCAL-00001" summary="input.trailer">
       <created>1518029945050</created>
@@ -304,11 +304,32 @@
       <option name="project" value="LOCAL" />
       <updated>1518355749964</updated>
     </task>
-    <option name="localTasksCounter" value="16" />
+    <task id="LOCAL-00016" summary="fix crash">
+      <created>1518356042741</created>
+      <option name="number" value="00016" />
+      <option name="presentableId" value="LOCAL-00016" />
+      <option name="project" value="LOCAL" />
+      <updated>1518356042741</updated>
+    </task>
+    <task id="LOCAL-00017" summary="fix crash">
+      <created>1518356182135</created>
+      <option name="number" value="00017" />
+      <option name="presentableId" value="LOCAL-00017" />
+      <option name="project" value="LOCAL" />
+      <updated>1518356182135</updated>
+    </task>
+    <task id="LOCAL-00018" summary="fix crash">
+      <created>1518356477211</created>
+      <option name="number" value="00018" />
+      <option name="presentableId" value="LOCAL-00018" />
+      <option name="project" value="LOCAL" />
+      <updated>1518356477211</updated>
+    </task>
+    <option name="localTasksCounter" value="19" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="33724000" />
+    <option name="totallyTimeSpent" value="35773000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-1" y="25" width="1922" height="1056" extended-state="6" />
@@ -317,7 +338,7 @@
       <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.18416886" />
       <window_info anchor="bottom" id="TODO" order="6" />
       <window_info anchor="bottom" id="Docker" order="7" show_stripe_button="false" />
-      <window_info anchor="bottom" id="Event Log" order="7" side_tool="true" />
+      <window_info anchor="bottom" id="Event Log" order="7" side_tool="true" weight="0.3289183" />
       <window_info anchor="bottom" id="Version Control" order="7" weight="0.33260155" />
       <window_info id="npm" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Run" order="2" weight="0.32954547" />
@@ -599,8 +620,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/routes/index.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="774">
-          <caret line="298" lean-forward="true" selection-start-line="298" selection-end-line="298" />
+        <state relative-caret-position="252">
+          <caret line="346" column="37" selection-start-line="346" selection-start-column="37" selection-end-line="346" selection-end-column="37" />
         </state>
       </provider>
     </entry>

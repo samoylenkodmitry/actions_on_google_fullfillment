@@ -27,6 +27,13 @@ function processV1Request(prequest, presponse) {
     const app = new DialogflowApp({request: prequest, response: presponse});
 
     const actionHandlers = {
+        'input.similar_no_context': () => {
+            similarIntent(inputContexts, parameters, app);
+        },
+
+        'input.similar': () => {
+            similarIntent(inputContexts, parameters, app);
+        },
 
         'input.trailer_no_context': () => {
             trailerIntent(inputContexts, parameters, app);
@@ -296,6 +303,97 @@ function processV1Request(prequest, presponse) {
         });
     }
 
+    function similarIntent(inputContexts, parameters, app) {
+        console.log("in similar intent");
+        console.log(inputContexts);
+        console.log(parameters);
+        console.log(inputContexts.length);
+
+        let contextSearchResult = "";
+        let id = -1;
+        for (var i = 0; i < inputContexts.length; i++) {
+            var ctx = inputContexts[i];
+            console.log(ctx);
+            let name = ctx.name;
+            console.log("name:" + name);
+            if ("search_result" == name) {
+                console.log(ctx.parameters);
+                let ctxParams = ctx.parameters;
+                console.log(ctxParams.any);
+                contextSearchResult = ctxParams.any;
+
+            }
+            if ("search_result_val" == name) {
+                console.log(ctx.parameters);
+                let ctxParams = ctx.parameters;
+                console.log(ctxParams.id);
+                id = ctxParams.id;
+
+            }
+        }
+
+        console.log(id);
+        let byIdUrl = "https://api.ivi.ru/mobileapi/videoinfo/v5/?id=" + id + "&fields=id&app_version=10773";
+        let reqURL = "https://api.ivi.ru/mobileapi/search/v5/?from=0&to=0&app_version=870&fields=id&query="
+            + encodeURIComponent(contextSearchResult);
+        let u = id === -1 ? reqURL : byIdUrl;
+        console.log('url=' + u);
+        let isById = id !== -1;
+        doRequest(u, (error, response) => {
+            if (error) {
+                sendResponse('Что-то не могу ответить...')
+            } else {
+                console.log('resolved body 1: ' + JSON.stringify(response.body));
+                console.log('resolved body 2: ' + response.body);
+                let body = JSON.parse(response.body);
+                if (body.result.length === 0) {
+                    sendResponse('Что-то ничего не нашлось');
+                    return;
+                }
+                let result = isById ? body.result : body.result[0];
+                let resolvedId = result.id;
+
+                let recommendationsUrl = "https://api.ivi.ru/mobileapi/hydra/get/recommendation/v5/?scenario_id=MAIN_PAGE&top=5&id="
+                    + resolvedId + "&app_version=10773";
+
+                doRequest(recommendationsUrl, (error, response) => {
+                    if (error) {
+                        sendResponse('Что-то не могу ответить...')
+                    } else {
+
+
+                        console.log('recommends body 1: ' + JSON.stringify(response.body));
+                        console.log('recommends body 2: ' + response.body);
+                        let body = JSON.parse(response.body);
+                        if (body.result.length === 0) {
+                            sendResponse('Что-то ничего не нашлось');
+                            return;
+                        }
+                        let result = body.result;
+
+                        const carousel = app.buildCarousel();
+                        var i;
+                        for (i = 0; i < result.length; i++) {
+                            let item = body.result[i];
+                            let poster = item.poster_originals.length > 0 ? item.poster_originals[0].path : "";
+                            carousel.addItems(app.buildOptionItem("SELECTION_KEY_ONE" + item.id,
+                                ['synonym of KEY_ONE 1' + item.id, 'synonym of KEY_ONE 2' + item.id])
+                                .setTitle(item.title.toString())
+                                .setDescription(item.description.toString())
+                                .setImage(poster, 'image'));
+
+                        }
+
+                        app.askWithCarousel('Вот что я нашел для вас:',
+                            carousel
+                        )
+                            .addSuggestions(['Описание', 'Трейлер'])
+                        ;
+                    }
+                });
+            }
+        });
+    }
 
 }
 
