@@ -314,7 +314,7 @@ function processV1Request(prequest, presponse) {
                 }
                 let result = isById ? body.result : body.result[0];
                 var poster = result.poster_originals[0].path;
-                if (!(result.additional_data == 'undefined')) {
+                if ("additional_data" in result) {
                     if (result.additional_data.length > 0) {
                         poster = result.additional_data[0].preview;
                     }
