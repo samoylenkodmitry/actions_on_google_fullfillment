@@ -313,9 +313,12 @@ function processV1Request(prequest, presponse) {
                     return;
                 }
                 let result = isById ? body.result : body.result[0];
-                let poster = result.additional_data.length > 0 ?
-                    result.additional_data[0].preview :
-                    result.poster_originals.length > 0 ? result.poster_originals[0].path : "";
+                var poster = result.poster_originals[0].path;
+                if (!(result.additional_data == 'undefined')) {
+                    if (result.additional_data.length > 0) {
+                        poster = result.additional_data[0].preview;
+                    }
+                }
                 let title = result.title;
                 let id = result.id;
                 app.setContext("search_result_val", 5, {
