@@ -17,57 +17,39 @@ exports.dialogflowFirebaseFulfillment = functions.https.onRequest((request, resp
 
 
 function processV1Request(prequest, presponse) {
+    console.log("in vi request");
     let action = prequest.body.result.action;
+    console.log("got action: "+action);
     let parameters = prequest.body.result.parameters;
+    console.log("got params: "+parameters);
     let inputContexts = prequest.body.result.contexts;
+    console.log("got context: "+inputContexts);
     const app = new DialogflowApp({request: prequest, response: presponse});
 
     const actionHandlers = {
+
         'input.trailer_no_context': () => {
             trailerIntent(inputContexts, parameters, app);
         },
+
         'input.trailer': () => {
             trailerIntent(inputContexts, parameters, app);
         },
+
         'input.description': () => {
             descriptionIntent(inputContexts, parameters, app);
         },
+
         'input.description_no_context': () => {
             descriptionIntent(inputContexts, parameters, app);
         },
+
         'input.search': () => {
             searchIntent(app, parameters);
         },
+
         'input.continuewatch': () => {
-            let reqURL = "https://api.ivi.ru/mobileapi/collection/catalog/v5/?id=4655&from=0&to=0";
-            doRequest(reqURL, (error, response) => {
-                if (error) {
-                    sendResponse('Что-то не могу ответить...')
-                } else {
-                    let body = JSON.parse(response.body);
-                    let result = body.result[0];
-                    let poster = result.poster_originals[0].path;
-                    let title = result.title;
-                    let id = result.id;
-                    let desc = result.duration;
-                    let syn = result.synopsis;
-                    app.ask(
-                        app.buildRichResponse()
-                            .addSuggestionLink('Описание', 'https://www.ivi.ru/watch/' + id + '/description')
-                            .addSuggestions(['o_O', 'Продолжи', 'Трейлер', 'Описание'])
-                            .addBasicCard(app.buildBasicCard(syn)
-                                .setImageDisplay('WHITE')
-                                .setSubtitle(desc)
-                                .setTitle(title)
-                                .addButton('Смотреть', 'https://www.ivi.ru/watch/' + id)
-                                .setImage(poster, 'Постер фильма'))
-                            .addSimpleResponse({
-                                speech: 'Будете смотреть ' + title + '? ' + syn + ' Впрочем, о чем это я? Купите подписку!',
-                                displayText: '💁 Купите подписку!'
-                            })
-                    );
-                }
-            });
+            continueIntent(app);
         },
 
         'default': () => {
@@ -82,6 +64,7 @@ function processV1Request(prequest, presponse) {
     }
 
     actionHandlers[action]();
+    console.log("after action handler");
 
     function sendResponse(responseToUser) {
         let responseJson = {};
@@ -92,6 +75,7 @@ function processV1Request(prequest, presponse) {
     }
 
     function searchIntent(app, parameters) {
+        console.log("in search intent");
         console.log(parameters);
         let paramQuery = parameters.any;
         console.log('query=' + paramQuery);
@@ -133,6 +117,7 @@ function processV1Request(prequest, presponse) {
     }
 
     function descriptionIntent(inputContexts, parameters, app) {
+        console.log("in desc intent");
         console.log(inputContexts);
         console.log(parameters);
         console.log(inputContexts.length);
@@ -203,7 +188,9 @@ function processV1Request(prequest, presponse) {
             }
         });
     }
+
     function trailerIntent(inputContexts, parameters, app) {
+        console.log("in trailer intent");
         console.log(inputContexts);
         console.log(parameters);
         console.log(inputContexts.length);
@@ -265,6 +252,39 @@ function processV1Request(prequest, presponse) {
                         .addSimpleResponse({
                             speech: 'а вот и трейлер к ' + title,
                             displayText: 'нашелся трейлер!!'
+                        })
+                );
+            }
+        });
+    }
+
+    function continueIntent(app) {
+        console.log("in continue intent");
+        let reqURL = "https://api.ivi.ru/mobileapi/collection/catalog/v5/?id=4655&from=0&to=0";
+        doRequest(reqURL, (error, response) => {
+            if (error) {
+                sendResponse('Что-то не могу ответить...')
+            } else {
+                let body = JSON.parse(response.body);
+                let result = body.result[0];
+                let poster = result.poster_originals[0].path;
+                let title = result.title;
+                let id = result.id;
+                let desc = result.duration;
+                let syn = result.synopsis;
+                app.ask(
+                    app.buildRichResponse()
+                        .addSuggestionLink('Описание', 'https://www.ivi.ru/watch/' + id + '/description')
+                        .addSuggestions(['o_O', 'Продолжи', 'Трейлер', 'Описание'])
+                        .addBasicCard(app.buildBasicCard(syn)
+                            .setImageDisplay('WHITE')
+                            .setSubtitle(desc)
+                            .setTitle(title)
+                            .addButton('Смотреть', 'https://www.ivi.ru/watch/' + id)
+                            .setImage(poster, 'Постер фильма'))
+                        .addSimpleResponse({
+                            speech: 'Будете смотреть ' + title + '? ' + syn + ' Впрочем, о чем это я? Купите подписку!',
+                            displayText: '💁 Купите подписку!'
                         })
                 );
             }
