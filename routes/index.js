@@ -55,6 +55,10 @@ function processV1Request(prequest, presponse) {
             searchIntent(app, parameters);
         },
 
+        'input.search_select': () => {
+            searchSelectIntent(app, parameters);
+        },
+
         'input.continuewatch': () => {
             continueIntent(app);
         },
@@ -104,6 +108,9 @@ function processV1Request(prequest, presponse) {
                 }
                 let result = body.result;
 
+                app.setContext("search_result_count", 5, {
+                    "count": result.length
+                });
                 const carousel = app.buildCarousel();
                 var i;
                 for (i = 0; i < result.length; i++) {
@@ -126,6 +133,15 @@ function processV1Request(prequest, presponse) {
                             "kind": item.kind
                         });
                     }
+                    app.setContext("search_result_val" + i, 5, {
+                        "id": item.id
+                    });
+                    app.setContext("search_result_kind" + i, 5, {
+                        "kind": item.kind
+                    });
+                    app.setContext("search_result" + i, 5, {
+                        "any": item.title
+                    });
                 }
 
                 app.askWithCarousel('Вот что нашлось:',
@@ -416,7 +432,7 @@ function processV1Request(prequest, presponse) {
                 let resolvedTitle = result.title;
 
                 let recommendationsUrl = "https://api.ivi.ru/mobileapi/hydra/get/recommendation/v5/?scenario_id=ITEM_PAGE&top=5&id="
-                    + resolvedId + "&app_version=10773"+(kind==1?"":"&kind=2");
+                    + resolvedId + "&app_version=10773" + (kind == 1 ? "" : "&kind=2");
 
                 console.log(recommendationsUrl);
 
@@ -435,6 +451,9 @@ function processV1Request(prequest, presponse) {
                         }
                         let result = body.result;
 
+                        app.setContext("search_result_count", 5, {
+                            "count": result.length
+                        });
                         const carousel = app.buildCarousel();
                         var i;
                         for (i = 0; i < result.length; i++) {
@@ -458,6 +477,15 @@ function processV1Request(prequest, presponse) {
                                     "any": item.title
                                 });
                             }
+                            app.setContext("search_result_val" + i, 5, {
+                                "id": item.id
+                            });
+                            app.setContext("search_result_kind" + i, 5, {
+                                "kind": item.kind
+                            });
+                            app.setContext("search_result" + i, 5, {
+                                "any": item.title
+                            });
                         }
 
                         app.askWithCarousel('Вот фильмы похожие на ' + resolvedTitle,
@@ -470,5 +498,117 @@ function processV1Request(prequest, presponse) {
         });
     }
 
+    function searchSelectIntent(inputContexts, parameters, app) {
+        console.log("in search select intent");
+        console.log(inputContexts);
+        console.log(parameters);
+        console.log(inputContexts.length);
+
+        let count = 0;
+        for (var i = 0; i < inputContexts.length; i++) {
+            var ctx = inputContexts[i];
+            console.log(ctx);
+            let name = ctx.name;
+            console.log("name:" + name);
+            if ("search_result_count" == name) {
+                console.log(ctx.parameters);
+                let ctxParams = ctx.parameters;
+                console.log(ctxParams.count);
+                count = ctxParams.count;
+            }
+        }
+        if (count <= 0) {
+            sendResponse('Что-то пошло не так...');
+            return;
+        }
+        let ids = [];
+        let kinds = [];
+        let titles = [];
+        for (var j = 0; j < count; j++) {
+            let idName = "search_result_val" + j;
+            let kindName = "search_result_kind" + j;
+            let titleName = "search_result" + j;
+            for (var i = 0; i < inputContexts.length; i++) {
+                var ctx = inputContexts[i];
+                let name = ctx.name;
+                if (idName == name) {
+                    let ctxParams = ctx.parameters;
+                    ids.push(ctxParams.id);
+                }
+                if (kindName == name) {
+                    let ctxParams = ctx.parameters;
+                    kinds.push(ctxParams.kind);
+                }
+                if (titleName == name) {
+                    let ctxParams = ctx.parameters;
+                    titles.push(ctxParams.any);
+                }
+            }
+        }
+        console.log("ids=" + ids.toString());
+        console.log("kinds=" + kinds.toString());
+        console.log("titles=" + titles.toString());
+
+        if (ids.length == 0 || kinds.length == 0 || titles.length == 0) {
+
+            sendResponse('Что-то пошло не так... ой ой');
+            return;
+        }
+        let id = ids[0];
+        let kind = kinds[0];
+        let title = titles[0];
+
+        console.log(id);
+        let byIdUrl = "https://api.ivi.ru/mobileapi/" + (kind == 1 ? "videoinfo" : "compilationinfo") + "/v5/?id=" + id + "&app_version=10773";
+        let reqURL = "https://api.ivi.ru/mobileapi/search/v5/?from=0&to=0&app_version=870&query="
+            + encodeURIComponent(title);
+        let u = id === -1 ? reqURL : byIdUrl;
+        console.log('url=' + u);
+        let isById = id !== -1;
+        doRequest(u, (error, response) => {
+            if (error) {
+                sendResponse('Что-то не могу ответить...')
+            } else {
+                console.log('body 1: ' + JSON.stringify(response.body));
+                console.log('body 2: ' + response.body);
+                let body = JSON.parse(response.body);
+                if (body.result.length === 0) {
+                    sendResponse('Что-то ничего не нашлось');
+                    return;
+                }
+                let result = isById ? body.result : body.result[0];
+                let poster = result.poster_originals.length > 0 ? result.poster_originals[0].path : "";
+                let title = result.title;
+                let id = result.id;
+                let desc = result.duration;
+                let syn = result.synopsis;
+                app.setContext("search_result_val", 5, {
+                    "id": id
+                });
+                app.setContext("search_result", 5, {
+                    "any": title
+                });
+                app.setContext("search_result_kind", 5, {
+                    "kind": result.kind
+                });
+
+                app.ask(
+                    app.buildRichResponse()
+                        .addBasicCard(app.buildBasicCard(syn)
+                            .setImageDisplay('WHITE')
+                            .setSubtitle(desc)
+                            .setTitle(title)
+                            .addButton('Смотреть', 'https://www.ivi.ru/watch/' + id)
+                            .setImage(poster, 'Постер фильма'))
+                        .addSuggestions(['Похожие', 'Трейлер'])
+                        .addSuggestionLink('Описание', 'https://www.ivi.ru/watch/' + id + '/description')
+                        .addSimpleResponse({
+                            speech: 'а вот и описание к ' + title + ": " + syn,
+                            displayText: 'Вот, что-то нашлось:'
+                        })
+                );
+            }
+        });
+    }
 }
 
