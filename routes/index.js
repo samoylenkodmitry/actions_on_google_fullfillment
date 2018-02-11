@@ -196,7 +196,7 @@ function processV1Request(prequest, presponse) {
                         .addSuggestions(['o_O', 'Продолжи', 'Трейлер'])
                         .addSuggestionLink('Описание', 'https://www.ivi.ru/watch/' + id + '/description')
                         .addSimpleResponse({
-                            speech: 'а вот и описание к ' + title,
+                            speech: 'а вот и описание к ' + title + ": " + syn,
                             displayText: 'нашлось описание!'
                         })
                 );
