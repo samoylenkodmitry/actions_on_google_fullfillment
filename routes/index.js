@@ -23,7 +23,7 @@ function processV1Request(prequest, presponse) {
     let parameters = prequest.body.result.parameters;
     let rawQuery = prequest.body.originalRequest == 'undefined' ? "" :
         prequest.body.originalRequest.data.inputs == 'undefined' ? "" :
-            prequest.body.originalRequest.data.inputs.length <= 0 ? "" : prequest.body.originalRequest.data.inputs[0].rawInputs.query;
+            prequest.body.originalRequest.data.inputs.length <= 0 ? "" : prequest.body.originalRequest.data.inputs[0].rawInputs[0].query;
     console.log("got params: " + JSON.stringify(parameters));
     let inputContexts = prequest.body.result.contexts;
     console.log("got context: " + JSON.stringify(inputContexts));
