@@ -333,8 +333,8 @@ function processV1Request(prequest, presponse) {
         }
 
         console.log(id);
-        let byIdUrl = "https://api.ivi.ru/mobileapi/videoinfo/v5/?id=" + id + "&fields=id&app_version=10773";
-        let reqURL = "https://api.ivi.ru/mobileapi/search/v5/?from=0&to=0&app_version=870&fields=id&query="
+        let byIdUrl = "https://api.ivi.ru/mobileapi/videoinfo/v5/?id=" + id + "&fields=id,title&app_version=10773";
+        let reqURL = "https://api.ivi.ru/mobileapi/search/v5/?from=0&to=0&app_version=870&fields=id,title&query="
             + encodeURIComponent(contextSearchResult);
         let u = id === -1 ? reqURL : byIdUrl;
         console.log('url=' + u);
@@ -352,13 +352,14 @@ function processV1Request(prequest, presponse) {
                 }
                 let result = isById ? body.result : body.result[0];
                 let resolvedId = result.id;
+                let resolvedTitle = result.title;
 
                 let recommendationsUrl = "https://api.ivi.ru/mobileapi/hydra/get/recommendation/v5/?scenario_id=MAIN_PAGE&top=5&id="
                     + resolvedId + "&app_version=10773";
 
                 doRequest(recommendationsUrl, (error, response) => {
                     if (error) {
-                        sendResponse('Что-то не могу ответить...')
+                        sendResponse('Что-то не могу припомнить ни одного похожего на ' + resolvedTitle + " фильма")
                     } else {
 
 
@@ -366,7 +367,7 @@ function processV1Request(prequest, presponse) {
                         console.log('recommends body 2: ' + response.body);
                         let body = JSON.parse(response.body);
                         if (body.result.length === 0) {
-                            sendResponse('Что-то ничего не нашлось');
+                            sendResponse('Что-то не нашлось нашлось у нас похожих на ' + resolvedTitle);
                             return;
                         }
                         let result = body.result;
@@ -384,7 +385,7 @@ function processV1Request(prequest, presponse) {
 
                         }
 
-                        app.askWithCarousel('Вот что я нашел для вас:',
+                        app.askWithCarousel('Вот фильмы похожие на ' + resolvedTitle,
                             carousel
                         )
                             .addSuggestions(['Описание', 'Трейлер'])
