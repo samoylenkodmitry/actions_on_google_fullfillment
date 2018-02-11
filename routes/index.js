@@ -558,7 +558,7 @@ function processV1Request(prequest, presponse) {
             sendResponse('Что-то пошло не так... ой ой');
             return;
         }
-        console.log("raw input=:" + app.getRawInput());
+        console.log("raw input=:" + rawQuery);
         let text = rawQuery;
         let selected = 0;
         for (var j = 0; j < count; j++) {
