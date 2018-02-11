@@ -21,6 +21,7 @@ function processV1Request(prequest, presponse) {
     let action = prequest.body.result.action;
     console.log("got action: " + JSON.stringify(action));
     let parameters = prequest.body.result.parameters;
+    let rawQuery = prequest.body.originalRequest.inputs[0].rawInputs.query;
     console.log("got params: " + JSON.stringify(parameters));
     let inputContexts = prequest.body.result.contexts;
     console.log("got context: " + JSON.stringify(inputContexts));
@@ -56,11 +57,11 @@ function processV1Request(prequest, presponse) {
         },
 
         'input.unknown': () => {
-            searchSelectIntent(inputContexts, app, parameters);
+            searchSelectIntent(inputContexts, app, parameters, rawQuery);
         },
 
         'input.search_select': () => {
-            searchSelectIntent(inputContexts, app, parameters);
+            searchSelectIntent(inputContexts, app, parameters, rawQuery);
         },
 
         'input.welcome': () => {
@@ -491,7 +492,7 @@ function processV1Request(prequest, presponse) {
         });
     }
 
-    function searchSelectIntent(inputContexts, parameters, app) {
+    function searchSelectIntent(inputContexts, parameters, app, rawQuery) {
         console.log("in search select intent");
         console.log(inputContexts);
         console.log(parameters);
@@ -500,13 +501,9 @@ function processV1Request(prequest, presponse) {
         let count = 0;
         for (var i = 0; i < inputContexts.length; i++) {
             var ctx = inputContexts[i];
-            console.log(ctx);
             let name = ctx.name;
-            console.log("name:" + name);
             if ("search_result_count" == name) {
-                console.log(ctx.parameters);
                 let ctxParams = ctx.parameters;
-                console.log(ctxParams.count);
                 count = ctxParams.count;
             }
         }
@@ -548,7 +545,7 @@ function processV1Request(prequest, presponse) {
             return;
         }
         console.log("raw input=:" + app.getRawInput());
-        let text = app.getRawInput();
+        let text = rawQuery;
         let selected = 0;
         for (var j = 0; j < count; j++) {
             if (text == titles[j]) {
