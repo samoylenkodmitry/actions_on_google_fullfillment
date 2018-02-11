@@ -120,7 +120,6 @@ function processV1Request(prequest, presponse) {
                 app.askWithCarousel('Вот что нашлось:',
                     carousel
                 )
-                    .addSuggestions(['Описание', 'Трейлер', 'Похожие'])
                 ;
             }
         });
@@ -357,6 +356,8 @@ function processV1Request(prequest, presponse) {
                 let recommendationsUrl = "https://api.ivi.ru/mobileapi/hydra/get/recommendation/v5/?scenario_id=MAIN_PAGE&top=5&id="
                     + resolvedId + "&app_version=10773";
 
+                console.log(recommendationsUrl);
+
                 doRequest(recommendationsUrl, (error, response) => {
                     if (error) {
                         sendResponse('Что-то не могу припомнить ни одного похожего на ' + resolvedTitle + " фильма")
@@ -381,14 +382,14 @@ function processV1Request(prequest, presponse) {
                                 ['synonym of KEY_ONE 1' + item.id, 'synonym of KEY_ONE 2' + item.id])
                                 .setTitle(item.title.toString())
                                 .setDescription(item.description.toString())
-                                .setImage(poster, 'image'));
+                                .setImage(poster, 'image')
+                            );
 
                         }
 
                         app.askWithCarousel('Вот фильмы похожие на ' + resolvedTitle,
                             carousel
                         )
-                            .addSuggestions(['Описание', 'Трейлер'])
                         ;
                     }
                 });
