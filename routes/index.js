@@ -16,74 +16,6 @@ exports.dialogflowFirebaseFulfillment = functions.https.onRequest((request, resp
 });
 
 
-function trailerIntent(inputContexts, parameters, app) {
-    console.log(inputContexts);
-    console.log(parameters);
-    console.log(inputContexts.length);
-
-    let contextSearchResult = "";
-    let id = -1;
-    for (var i = 0; i < inputContexts.length; i++) {
-        var ctx = inputContexts[i];
-        console.log(ctx);
-        let name = ctx.name;
-        console.log("name:" + name);
-        if ("search_result" == name) {
-            console.log(ctx.parameters);
-            let ctxParams = ctx.parameters;
-            console.log(ctxParams.any);
-            contextSearchResult = ctxParams.any;
-
-        }
-        if ("search_result_val" == name) {
-            console.log(ctx.parameters);
-            let ctxParams = ctx.parameters;
-            console.log(ctxParams.id);
-            id = ctxParams.id;
-
-        }
-    }
-
-    console.log(id);
-    let byIdUrl = "https://api.ivi.ru/mobileapi/videoinfo/v5/?id=" + id + "&app_version=10773";
-    let reqURL = "https://api.ivi.ru/mobileapi/search/v5/?from=0&to=0&app_version=870&query="
-        + encodeURIComponent(contextSearchResult);
-    let u = id === -1 ? reqURL : byIdUrl;
-    console.log('url=' + u);
-    let isById = id !== -1;
-    doRequest(u, (error, response) => {
-        if (error) {
-            sendResponse('Что-то не могу ответить...')
-        } else {
-            console.log('body 1: ' + JSON.stringify(response.body));
-            console.log('body 2: ' + response.body);
-            let body = JSON.parse(response.body);
-            if (body.result.length === 0) {
-                sendResponse('Что-то ничего не нашлось');
-                return;
-            }
-            let result = isById ? body.result : body.result[0];
-            let poster = result.additional_data[0].preview;
-            let title = result.title;
-            let id = result.id;
-
-            app.ask(
-                app.buildRichResponse()
-                    .addBasicCard(app.buildBasicCard("")
-                        .setImageDisplay('WHITE')
-                        .setTitle(title)
-                        .setImage(poster, 'Кадр из трейлера'))
-                    .addSuggestions(['o_O', 'Продолжи', 'Описание'])
-                    .addSuggestionLink('Смотреть трейлер', 'https://www.ivi.ru/watch/' + id + '/trailers#play')
-                    .addSimpleResponse({
-                        speech: 'а вот и трейлер к ' + title,
-                        displayText: 'нашелся трейлер!!'
-                    })
-            );
-        }
-    });
-}
-
 function processV1Request(prequest, presponse) {
     let action = prequest.body.result.action;
     let parameters = prequest.body.result.parameters;
@@ -96,6 +28,12 @@ function processV1Request(prequest, presponse) {
         },
         'input.trailer': () => {
             trailerIntent(inputContexts, parameters, app);
+        },
+        'input.description': () => {
+            descriptionIntent(inputContexts, parameters, app);
+        },
+        'input.description_no_context': () => {
+            descriptionIntent(inputContexts, parameters, app);
         },
         'input.search': () => {
             searchIntent(app, parameters);
@@ -189,6 +127,145 @@ function processV1Request(prequest, presponse) {
 
                 app.askWithCarousel('Вот что я нашел для вас:',
                     carousel
+                );
+            }
+        });
+    }
+
+    function descriptionIntent(inputContexts, parameters, app) {
+        console.log(inputContexts);
+        console.log(parameters);
+        console.log(inputContexts.length);
+
+        let contextSearchResult = "";
+        let id = -1;
+        for (var i = 0; i < inputContexts.length; i++) {
+            var ctx = inputContexts[i];
+            console.log(ctx);
+            let name = ctx.name;
+            console.log("name:" + name);
+            if ("search_result" == name) {
+                console.log(ctx.parameters);
+                let ctxParams = ctx.parameters;
+                console.log(ctxParams.any);
+                contextSearchResult = ctxParams.any;
+
+            }
+            if ("search_result_val" == name) {
+                console.log(ctx.parameters);
+                let ctxParams = ctx.parameters;
+                console.log(ctxParams.id);
+                id = ctxParams.id;
+
+            }
+        }
+
+        console.log(id);
+        let byIdUrl = "https://api.ivi.ru/mobileapi/videoinfo/v5/?id=" + id + "&app_version=10773";
+        let reqURL = "https://api.ivi.ru/mobileapi/search/v5/?from=0&to=0&app_version=870&query="
+            + encodeURIComponent(contextSearchResult);
+        let u = id === -1 ? reqURL : byIdUrl;
+        console.log('url=' + u);
+        let isById = id !== -1;
+        doRequest(u, (error, response) => {
+            if (error) {
+                sendResponse('Что-то не могу ответить...')
+            } else {
+                console.log('body 1: ' + JSON.stringify(response.body));
+                console.log('body 2: ' + response.body);
+                let body = JSON.parse(response.body);
+                if (body.result.length === 0) {
+                    sendResponse('Что-то ничего не нашлось');
+                    return;
+                }
+                let result = isById ? body.result : body.result[0];
+                let poster = result.additional_data[0].preview;
+                let title = result.title;
+                let id = result.id;
+                let desc = result.duration;
+                let syn = result.synopsis;
+
+                app.ask(
+                    app.buildRichResponse()
+                        .addBasicCard(app.buildBasicCard(syn)
+                            .setImageDisplay('WHITE')
+                            .setSubtitle(desc)
+                            .setTitle(title)
+                            .addButton('Смотреть', 'https://www.ivi.ru/watch/' + id)
+                            .setImage(poster, 'Постер фильма'))
+                        .addSuggestions(['o_O', 'Продолжи', 'Трейлер'])
+                        .addSuggestionLink('Описание', 'https://www.ivi.ru/watch/' + id + '/description')
+                        .addSimpleResponse({
+                            speech: 'а вот и описание к ' + title,
+                            displayText: 'нашлось описание!'
+                        })
+                );
+            }
+        });
+    }
+    function trailerIntent(inputContexts, parameters, app) {
+        console.log(inputContexts);
+        console.log(parameters);
+        console.log(inputContexts.length);
+
+        let contextSearchResult = "";
+        let id = -1;
+        for (var i = 0; i < inputContexts.length; i++) {
+            var ctx = inputContexts[i];
+            console.log(ctx);
+            let name = ctx.name;
+            console.log("name:" + name);
+            if ("search_result" == name) {
+                console.log(ctx.parameters);
+                let ctxParams = ctx.parameters;
+                console.log(ctxParams.any);
+                contextSearchResult = ctxParams.any;
+
+            }
+            if ("search_result_val" == name) {
+                console.log(ctx.parameters);
+                let ctxParams = ctx.parameters;
+                console.log(ctxParams.id);
+                id = ctxParams.id;
+
+            }
+        }
+
+        console.log(id);
+        let byIdUrl = "https://api.ivi.ru/mobileapi/videoinfo/v5/?id=" + id + "&app_version=10773";
+        let reqURL = "https://api.ivi.ru/mobileapi/search/v5/?from=0&to=0&app_version=870&query="
+            + encodeURIComponent(contextSearchResult);
+        let u = id === -1 ? reqURL : byIdUrl;
+        console.log('url=' + u);
+        let isById = id !== -1;
+        doRequest(u, (error, response) => {
+            if (error) {
+                sendResponse('Что-то не могу ответить...')
+            } else {
+                console.log('body 1: ' + JSON.stringify(response.body));
+                console.log('body 2: ' + response.body);
+                let body = JSON.parse(response.body);
+                if (body.result.length === 0) {
+                    sendResponse('Что-то ничего не нашлось');
+                    return;
+                }
+                let result = isById ? body.result : body.result[0];
+                let poster = result.additional_data[0].preview;
+                let title = result.title;
+                let id = result.id;
+
+                app.ask(
+                    app.buildRichResponse()
+                        .addBasicCard(app.buildBasicCard("")
+                            .setImageDisplay('WHITE')
+                            .setTitle(title)
+                            .setImage(poster, 'Кадр из трейлера'))
+                        .addSuggestions(['o_O', 'Продолжи', 'Описание'])
+                        .addSuggestionLink('Смотреть трейлер', 'https://www.ivi.ru/watch/' + id + '/trailers#play')
+                        .addSimpleResponse({
+                            speech: 'а вот и трейлер к ' + title,
+                            displayText: 'нашелся трейлер!!'
+                        })
                 );
             }
         });
