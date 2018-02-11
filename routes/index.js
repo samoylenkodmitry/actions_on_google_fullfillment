@@ -72,6 +72,7 @@ function processV1Request(prequest, presponse) {
 
         'default': () => {
             sendResponse('>---o_O----< ' + action + " ?");
+            welcomeIntent(app);
         }
     };
 
@@ -357,7 +358,7 @@ function processV1Request(prequest, presponse) {
                 let title = result.title;
                 app.ask(
                     app.buildRichResponse()
-                        .addSuggestions(['Найти ' + title, 'Трейлер к ' + title, 'Описание ' + title])
+                        .addSuggestions(['Найти ' + title, 'Трейлер к ' + title, 'Описание ' + title, 'Похожее на ' + title])
                         .addSuggestionLink('ivi.ru', 'https://www.ivi.ru/')
                         .addSimpleResponse({
                             speech: 'Привет!',
