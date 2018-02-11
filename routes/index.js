@@ -117,10 +117,10 @@ function processV1Request(prequest, presponse) {
 
                 }
 
-                app.askWithCarousel('Вот что я нашел для вас:',
+                app.askWithCarousel('Вот что нашлось:',
                     carousel
                 )
-                    .addSuggestions(['Описание', 'Трейлер'])
+                    .addSuggestions(['Описание', 'Трейлер', 'Похожие'])
                 ;
             }
         });
@@ -188,11 +188,11 @@ function processV1Request(prequest, presponse) {
                             .setTitle(title)
                             .addButton('Смотреть', 'https://www.ivi.ru/watch/' + id)
                             .setImage(poster, 'Постер фильма'))
-                        .addSuggestions(['o_O', 'Продолжи', 'Трейлер'])
+                        .addSuggestions(['Похожие', 'Трейлер'])
                         .addSuggestionLink('Описание', 'https://www.ivi.ru/watch/' + id + '/description')
                         .addSimpleResponse({
                             speech: 'а вот и описание к ' + title + ": " + syn,
-                            displayText: 'нашлось описание!'
+                            displayText: 'Есть описание!'
                         })
                 );
             }
@@ -259,7 +259,7 @@ function processV1Request(prequest, presponse) {
                             .setImageDisplay('WHITE')
                             .setTitle(title)
                             .setImage(poster, 'Кадр из трейлера'))
-                        .addSuggestions(['o_O', 'Продолжи', 'Описание'])
+                        .addSuggestions(['Похожие', 'Описание'])
                         .addSuggestionLink('Смотреть трейлер', 'https://www.ivi.ru/watch/' + id + '/trailers#play')
                         .addSimpleResponse({
                             speech: 'а вот и трейлер к ' + title,
