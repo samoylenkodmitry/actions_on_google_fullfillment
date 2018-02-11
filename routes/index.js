@@ -196,6 +196,9 @@ function processV1Request(prequest, presponse) {
 
             }
         }
+        if (id == -1 && contextSearchResult == "") {
+            contextSearchResult = parameters.queryname;
+        }
 
         console.log(id);
         let byIdUrl = "https://api.ivi.ru/mobileapi/" + (kind == 1 ? "videoinfo" : "compilationinfo") + "/v5/?id=" + id + "&app_version=10773";
@@ -288,6 +291,10 @@ function processV1Request(prequest, presponse) {
         }
 
         console.log(id);
+        if (id == -1 && contextSearchResult == "") {
+            console.log(parameters.queryname);
+            contextSearchResult = parameters.queryname;
+        }
         let byIdUrl = "https://api.ivi.ru/mobileapi/" + (kind == 1 ? "videoinfo" : "compilationinfo") + "/v5/?id=" + id + "&app_version=10773";
         let reqURL = "https://api.ivi.ru/mobileapi/search/v5/?from=0&to=0&app_version=870&query="
             + encodeURIComponent(contextSearchResult);
@@ -407,6 +414,10 @@ function processV1Request(prequest, presponse) {
         }
 
         console.log(id);
+        if (id == -1 && contextSearchResult == "") {
+            console.log(parameters.queryname);
+            contextSearchResult = parameters.queryname;
+        }
         let byIdUrl = "https://api.ivi.ru/mobileapi/" + (kind == 1 ? "videoinfo" : "compilationinfo") + "/v5/?id=" + id + "&fields=id,title&app_version=10773";
         let reqURL = "https://api.ivi.ru/mobileapi/search/v5/?from=0&to=0&app_version=870&fields=id,title&query="
             + encodeURIComponent(contextSearchResult);
