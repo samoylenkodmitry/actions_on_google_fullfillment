@@ -63,8 +63,8 @@ function processV1Request(prequest, presponse) {
             searchSelectIntent(inputContexts, app, parameters);
         },
 
-        'input.continuewatch': () => {
-            continueIntent(app);
+        'input.welcome': () => {
+            welcomeIntent(app);
         },
 
         'default': () => {
@@ -334,42 +334,31 @@ function processV1Request(prequest, presponse) {
         });
     }
 
-    function continueIntent(app) {
+    function welcomeIntent(app) {
         console.log("in continue intent");
         let reqURL = "https://api.ivi.ru/mobileapi/collection/catalog/v5/?id=4655&from=0&to=0";
         doRequest(reqURL, (error, response) => {
             if (error) {
-                sendResponse('Что-то не могу ответить...')
+                app.ask(
+                    app.buildRichResponse()
+                        .addSuggestions(['Найти ', 'Трейлер ', 'Описание '])
+                        .addSuggestionLink('ivi.ru', 'https://www.ivi.ru/')
+                        .addSimpleResponse({
+                            speech: 'Привет!',
+                            displayText: 'Привет! 💁 Чего желаете?'
+                        })
+                );
             } else {
                 let body = JSON.parse(response.body);
                 let result = body.result[0];
-                let poster = result.poster_originals.length > 0 ? result.poster_originals[0].path : "";
                 let title = result.title;
-                let id = result.id;
-                let desc = result.duration;
-                let syn = result.synopsis;
-                app.setContext("search_result_val", 5, {
-                    "id": id
-                });
-                app.setContext("search_result", 5, {
-                    "any": title
-                });
-                app.setContext("search_result_kind", 5, {
-                    "kind": result.kind
-                });
                 app.ask(
                     app.buildRichResponse()
-                        .addSuggestionLink('Описание', 'https://www.ivi.ru/watch/' + id + '/description')
-                        .addSuggestions(['o_O', 'Продолжи', 'Трейлер', 'Описание'])
-                        .addBasicCard(app.buildBasicCard(syn)
-                            .setImageDisplay('WHITE')
-                            .setSubtitle(desc)
-                            .setTitle(title)
-                            .addButton('Смотреть', 'https://www.ivi.ru/watch/' + id)
-                            .setImage(poster, 'Постер фильма'))
+                        .addSuggestions(['Найти ' + title, 'Трейлер к ' + title, 'Описание ' + title])
+                        .addSuggestionLink('ivi.ru', 'https://www.ivi.ru/')
                         .addSimpleResponse({
-                            speech: 'Будете смотреть ' + title + '? ' + syn + ' Впрочем, о чем это я? Купите подписку!',
-                            displayText: '💁 Купите подписку!'
+                            speech: 'Привет!',
+                            displayText: 'Привет! 💁 Чего желаете?'
                         })
                 );
             }
