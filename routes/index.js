@@ -506,7 +506,7 @@ function processV1Request(prequest, presponse) {
         });
     }
 
-    function searchSelectIntent(inputContexts, parameters, app, rawQuery) {
+    function searchSelectIntent(inputContexts, app, parameters, rawQuery) {
         console.log("in search select intent");
         console.log(inputContexts);
         console.log(parameters);
