@@ -416,7 +416,7 @@ function processV1Request(prequest, presponse) {
                 let resolvedTitle = result.title;
 
                 let recommendationsUrl = "https://api.ivi.ru/mobileapi/hydra/get/recommendation/v5/?scenario_id=ITEM_PAGE&top=5&id="
-                    + resolvedId + "&app_version=10773";
+                    + resolvedId + "&app_version=10773"+(kind==1?"":"&kind=2");
 
                 console.log(recommendationsUrl);
 
