@@ -101,12 +101,12 @@ function processV1Request(prequest, presponse) {
                 var i;
                 for (i = 0; i < result.length; i++) {
                     let item = body.result[i];
-                    let urlPoster = item.poster_originals.length > 0 ? item.poster_originals[0].path : "";
+                    let poster = item.poster_originals.length > 0 ? item.poster_originals[0].path : "";
                     carousel.addItems(app.buildOptionItem("SELECTION_KEY_ONE" + item.id,
                         ['synonym of KEY_ONE 1' + item.id, 'synonym of KEY_ONE 2' + item.id])
                         .setTitle(item.title.toString())
                         .setDescription(item.description.toString())
-                        .setImage(urlPoster, 'image'));
+                        .setImage(poster, 'image'));
 
                 }
 
@@ -165,7 +165,7 @@ function processV1Request(prequest, presponse) {
                     return;
                 }
                 let result = isById ? body.result : body.result[0];
-                let poster = item.poster_originals.length > 0 ? item.poster_originals[0].path : "";
+                let poster = result.poster_originals.length > 0 ? result.poster_originals[0].path : "";
                 let title = result.title;
                 let id = result.id;
                 let desc = result.duration;
@@ -240,7 +240,7 @@ function processV1Request(prequest, presponse) {
                 let result = isById ? body.result : body.result[0];
                 let poster = result.additional_data.length > 0 ?
                     result.additional_data[0].preview :
-                    item.poster_originals.length > 0 ? item.poster_originals[0].path : "";
+                    result.poster_originals.length > 0 ? result.poster_originals[0].path : "";
                 let title = result.title;
                 let id = result.id;
 
@@ -270,7 +270,7 @@ function processV1Request(prequest, presponse) {
             } else {
                 let body = JSON.parse(response.body);
                 let result = body.result[0];
-                let poster = body.poster_originals.length > 0 ? body.poster_originals[0].path : "";
+                let poster = result.poster_originals.length > 0 ? result.poster_originals[0].path : "";
                 let title = result.title;
                 let id = result.id;
                 let desc = result.duration;
