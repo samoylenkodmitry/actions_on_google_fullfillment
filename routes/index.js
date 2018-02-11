@@ -56,11 +56,11 @@ function processV1Request(prequest, presponse) {
         },
 
         'input.unknown': () => {
-            searchIntent(app, parameters);
+            searchSelectIntent(inputContexts, app, parameters);
         },
 
         'input.search_select': () => {
-            searchSelectIntent(app, parameters);
+            searchSelectIntent(inputContexts, app, parameters);
         },
 
         'input.continuewatch': () => {
@@ -522,7 +522,7 @@ function processV1Request(prequest, presponse) {
             }
         }
         if (count <= 0) {
-            sendResponse('Что-то пошло не так...');
+            searchIntent(app, parameters);
             return;
         }
         let ids = [];
@@ -558,11 +558,21 @@ function processV1Request(prequest, presponse) {
             sendResponse('Что-то пошло не так... ой ой');
             return;
         }
-        let id = ids[0];
-        let kind = kinds[0];
-        let title = titles[0];
+        console.log("raw input=:" + app.getRawInput());
+        let text = app.getRawInput();
+        let selected = 0;
+        for (var j = 0; j < count; j++) {
+            if (text == titles[j]) {
+                selected = j;
+                break;
+            }
+        }
 
-        console.log(id);
+        let id = ids[selected];
+        let kind = kinds[selected];
+        let title = titles[selected];
+
+        console.log("selected: " + title);
         let byIdUrl = "https://api.ivi.ru/mobileapi/" + (kind == 1 ? "videoinfo" : "compilationinfo") + "/v5/?id=" + id + "&app_version=10773";
         let reqURL = "https://api.ivi.ru/mobileapi/search/v5/?from=0&to=0&app_version=870&query="
             + encodeURIComponent(title);
