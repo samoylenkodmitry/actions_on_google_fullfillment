@@ -17,7 +17,16 @@ exports.dialogflowFirebaseFulfillment = functions.https.onRequest((request, resp
 
 
 function isUndefined(originalRequest) {
-    return originalRequest == 'undefined';
+    if (typeof(paramQuery) == 'undefined'))
+    return true;
+
+    if (paramQuery === undefined)
+        return true;
+
+    if (originalRequest == 'undefined')
+        return true;
+
+    return !paramQuery;
 }
 
 function validStr(queryname) {
@@ -111,11 +120,6 @@ function processV1Request(prequest, presponse) {
         var paramQuery = parameters.any;
         console.log('query=' + paramQuery);
         console.log('isUndefined=' + isUndefined(paramQuery));
-        console.log('isUndefined1=' + (!paramQuery));
-        console.log('isUndefined2=' + (!!paramQuery));
-        console.log('isUndefined3=' + (typeof(paramQuery) == 'undefined'));
-        console.log('isUndefined4=' + (paramQuery === undefined));
-        console.log('isUndefined5=' + (paramQuery === 'undefined'));
         if (isUndefined(paramQuery)) {
             paramQuery = rawQuery;
             console.log("raw: " + rawQuery);
