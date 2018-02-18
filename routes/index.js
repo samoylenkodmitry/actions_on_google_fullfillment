@@ -111,6 +111,9 @@ function processV1Request(prequest, presponse) {
         var paramQuery = parameters.any;
         console.log('query=' + paramQuery);
         console.log('isUndefined=' + isUndefined(paramQuery));
+        console.log('isUndefined2=' + (paramQuery=='undefined'));
+        console.log('isUndefined3=' + (paramQuery==='undefined'));
+        console.log('isUndefined4=' + (paramQuery==="undefined"));
         if (isUndefined(paramQuery)) {
             paramQuery = rawQuery;
             console.log("raw: " + rawQuery);
@@ -587,7 +590,7 @@ function processV1Request(prequest, presponse) {
         let text = rawQuery;
         let selected = -1;
         for (var j = 0; j < count; j++) {
-            if (text == titles[j]) {
+            if (text.toUpperCase() == titles[j].toUpperCase()) {
                 selected = j;
                 break;
             }
