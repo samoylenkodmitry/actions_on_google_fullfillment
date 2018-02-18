@@ -115,9 +115,13 @@ function processV1Request(prequest, presponse) {
         console.log('isUndefined2=' + (!!paramQuery));
         console.log('isUndefined3=' + (typeof(paramQuery) == 'undefined'));
         console.log('isUndefined4=' + (paramQuery === undefined);
+        console.log('isUndefined5=' + (paramQuery === 'undefined');
         if (isUndefined(paramQuery)) {
             paramQuery = rawQuery;
             console.log("raw: " + rawQuery);
+        }
+        if (validStr(parameters.queryname)) {
+            paramQuery = parameters.queryname;
         }
         let reqURL = "https://api.ivi.ru/mobileapi/search/v5/?from=0&to=4&app_version=870&query="
             + encodeURIComponent(paramQuery);
