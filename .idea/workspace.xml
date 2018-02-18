@@ -2,6 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="b5405bad-1f24-4896-b7b4-5d335e15b3e9" name="Default" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/routes/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/routes/index.js" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/.tmp/" />
@@ -19,8 +20,8 @@
       <file leaf-file-name="index.js" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/routes/index.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="486">
-              <caret line="115" column="64" selection-start-line="115" selection-start-column="64" selection-end-line="115" selection-end-column="64" />
+            <state relative-caret-position="285">
+              <caret line="19" column="3" selection-start-line="19" selection-start-column="3" selection-end-line="19" selection-end-column="3" />
             </state>
           </provider>
         </entry>
@@ -195,21 +196,7 @@
       <workItem from="1518029818002" duration="3494000" />
       <workItem from="1518342735465" duration="19797000" />
       <workItem from="1518600027524" duration="337000" />
-      <workItem from="1518978551898" duration="5183000" />
-    </task>
-    <task id="LOCAL-00001" summary="input.trailer">
-      <created>1518029945050</created>
-      <option name="number" value="00001" />
-      <option name="presentableId" value="LOCAL-00001" />
-      <option name="project" value="LOCAL" />
-      <updated>1518029945050</updated>
-    </task>
-    <task id="LOCAL-00002" summary="input.trailer">
-      <created>1518030008216</created>
-      <option name="number" value="00002" />
-      <option name="presentableId" value="LOCAL-00002" />
-      <option name="project" value="LOCAL" />
-      <updated>1518030008216</updated>
+      <workItem from="1518978551898" duration="5712000" />
     </task>
     <task id="LOCAL-00003" summary="input.trailer">
       <created>1518030351283</created>
@@ -533,11 +520,32 @@
       <option name="project" value="LOCAL" />
       <updated>1518983932061</updated>
     </task>
-    <option name="localTasksCounter" value="49" />
+    <task id="LOCAL-00049" summary="&#10;search">
+      <created>1518984233985</created>
+      <option name="number" value="00049" />
+      <option name="presentableId" value="LOCAL-00049" />
+      <option name="project" value="LOCAL" />
+      <updated>1518984233985</updated>
+    </task>
+    <task id="LOCAL-00050" summary="fix syntax">
+      <created>1518984278782</created>
+      <option name="number" value="00050" />
+      <option name="presentableId" value="LOCAL-00050" />
+      <option name="project" value="LOCAL" />
+      <updated>1518984278782</updated>
+    </task>
+    <task id="LOCAL-00051" summary="fix undefined">
+      <created>1518984668740</created>
+      <option name="number" value="00051" />
+      <option name="presentableId" value="LOCAL-00051" />
+      <option name="project" value="LOCAL" />
+      <updated>1518984668740</updated>
+    </task>
+    <option name="localTasksCounter" value="52" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="52541000" />
+    <option name="totallyTimeSpent" value="53070000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-1" y="25" width="1922" height="1056" extended-state="6" />
@@ -612,7 +620,10 @@
     <MESSAGE value="similar to search" />
     <MESSAGE value="crash fix" />
     <MESSAGE value="search" />
-    <option name="LAST_COMMIT_MESSAGE" value="search" />
+    <MESSAGE value="&#10;search" />
+    <MESSAGE value="fix syntax" />
+    <MESSAGE value="fix undefined" />
+    <option name="LAST_COMMIT_MESSAGE" value="fix undefined" />
   </component>
   <component name="editorHistoryManager">
     <entry file="file://$PROJECT_DIR$/routes/index.js">
@@ -886,8 +897,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/routes/index.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="486">
-          <caret line="115" column="64" selection-start-line="115" selection-start-column="64" selection-end-line="115" selection-end-column="64" />
+        <state relative-caret-position="285">
+          <caret line="19" column="3" selection-start-line="19" selection-start-column="3" selection-end-line="19" selection-end-column="3" />
         </state>
       </provider>
     </entry>

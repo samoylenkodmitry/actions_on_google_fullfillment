@@ -17,16 +17,17 @@ exports.dialogflowFirebaseFulfillment = functions.https.onRequest((request, resp
 
 
 function isUndefined(originalRequest) {
-    if (typeof(paramQuery) == 'undefined'))
-    return true;
 
-    if (paramQuery === undefined)
+    if (typeof(originalRequest) == 'undefined')
+        return true;
+
+    if (originalRequest === undefined)
         return true;
 
     if (originalRequest == 'undefined')
         return true;
 
-    return !paramQuery;
+    return !originalRequest;
 }
 
 function validStr(queryname) {
