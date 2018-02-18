@@ -23,7 +23,7 @@ function isUndefined(originalRequest) {
 function validStr(queryname) {
     if (isUndefined(queryname)) return false;
 
-    return  queryname.length > 0;
+    return queryname.length > 0;
 }
 
 function processV1Request(prequest, presponse) {
@@ -122,6 +122,10 @@ function processV1Request(prequest, presponse) {
                 console.log('body 1: ' + JSON.stringify(response.body));
                 console.log('body 2: ' + response.body);
                 let body = JSON.parse(response.body);
+                if (isUndefined(body.result)) {
+                    sendResponse('Что-то ничего не нашлось');
+                    return;
+                }
                 if (body.result.length === 0) {
                     sendResponse('Что-то ничего не нашлось');
                     return;
@@ -221,6 +225,10 @@ function processV1Request(prequest, presponse) {
                 console.log('body 1: ' + JSON.stringify(response.body));
                 console.log('body 2: ' + response.body);
                 let body = JSON.parse(response.body);
+                if (isUndefined(body.result)) {
+                    sendResponse('Что-то ничего не нашлось');
+                    return;
+                }
                 if (body.result.length === 0) {
                     sendResponse('Что-то ничего не нашлось');
                     return;
@@ -310,6 +318,10 @@ function processV1Request(prequest, presponse) {
                 console.log('body 1: ' + JSON.stringify(response.body));
                 console.log('body 2: ' + response.body);
                 let body = JSON.parse(response.body);
+                if (isUndefined(body.result)) {
+                    sendResponse('Что-то ничего не нашлось');
+                    return;
+                }
                 if (body.result.length === 0) {
                     sendResponse('Что-то ничего не нашлось');
                     return;
@@ -431,6 +443,10 @@ function processV1Request(prequest, presponse) {
                 console.log('resolved body 1: ' + JSON.stringify(response.body));
                 console.log('resolved body 2: ' + response.body);
                 let body = JSON.parse(response.body);
+                if (isUndefined(body.result)) {
+                    sendResponse('Что-то ничего не нашлось');
+                    return;
+                }
                 if (body.result.length === 0) {
                     sendResponse('Что-то ничего не нашлось');
                     return;
@@ -453,6 +469,10 @@ function processV1Request(prequest, presponse) {
                         console.log('recommends body 1: ' + JSON.stringify(response.body));
                         console.log('recommends body 2: ' + response.body);
                         let body = JSON.parse(response.body);
+                        if (isUndefined(body.result)) {
+                            sendResponse('Что-то ничего не нашлось');
+                            return;
+                        }
                         if (body.result.length === 0) {
                             sendResponse('Что-то не нашлось нашлось у нас похожих на ' + resolvedTitle);
                             return;
@@ -586,6 +606,10 @@ function processV1Request(prequest, presponse) {
                 console.log('body 1: ' + JSON.stringify(response.body));
                 console.log('body 2: ' + response.body);
                 let body = JSON.parse(response.body);
+                if (isUndefined(body.result)) {
+                    sendResponse('Что-то ничего не нашлось');
+                    return;
+                }
                 if (body.result.length === 0) {
                     sendResponse('Что-то ничего не нашлось');
                     return;

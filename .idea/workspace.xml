@@ -20,8 +20,8 @@
       <file leaf-file-name="index.js" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/routes/index.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="90">
-              <caret line="5" lean-forward="true" selection-start-line="5" selection-end-line="5" />
+            <state relative-caret-position="677">
+              <caret line="651" lean-forward="true" selection-start-line="651" selection-end-line="651" />
             </state>
           </provider>
         </entry>
@@ -195,7 +195,7 @@
       <workItem from="1518029818002" duration="3494000" />
       <workItem from="1518342735465" duration="19797000" />
       <workItem from="1518600027524" duration="337000" />
-      <workItem from="1518978551898" duration="667000" />
+      <workItem from="1518978551898" duration="1779000" />
     </task>
     <task id="LOCAL-00001" summary="input.trailer">
       <created>1518029945050</created>
@@ -470,11 +470,25 @@
       <option name="project" value="LOCAL" />
       <updated>1518371244531</updated>
     </task>
-    <option name="localTasksCounter" value="40" />
+    <task id="LOCAL-00040" summary="similar">
+      <created>1518979226521</created>
+      <option name="number" value="00040" />
+      <option name="presentableId" value="LOCAL-00040" />
+      <option name="project" value="LOCAL" />
+      <updated>1518979226521</updated>
+    </task>
+    <task id="LOCAL-00041" summary="crash fix">
+      <created>1518979553245</created>
+      <option name="number" value="00041" />
+      <option name="presentableId" value="LOCAL-00041" />
+      <option name="project" value="LOCAL" />
+      <updated>1518979553245</updated>
+    </task>
+    <option name="localTasksCounter" value="42" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="48025000" />
+    <option name="totallyTimeSpent" value="49137000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-1" y="25" width="1922" height="1056" extended-state="6" />
@@ -538,7 +552,6 @@
     <MESSAGE value="input.trailer" />
     <MESSAGE value="&#10;refactor" />
     <MESSAGE value="fix crash" />
-    <MESSAGE value="similar" />
     <MESSAGE value="context" />
     <MESSAGE value="kind" />
     <MESSAGE value="search context" />
@@ -546,7 +559,9 @@
     <MESSAGE value="crash" />
     <MESSAGE value="craaash" />
     <MESSAGE value="rawquery" />
-    <option name="LAST_COMMIT_MESSAGE" value="rawquery" />
+    <MESSAGE value="similar" />
+    <MESSAGE value="crash fix" />
+    <option name="LAST_COMMIT_MESSAGE" value="crash fix" />
   </component>
   <component name="editorHistoryManager">
     <entry file="file://$PROJECT_DIR$/routes/index.js">
@@ -820,8 +835,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/routes/index.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="90">
-          <caret line="5" lean-forward="true" selection-start-line="5" selection-end-line="5" />
+        <state relative-caret-position="677">
+          <caret line="651" lean-forward="true" selection-start-line="651" selection-end-line="651" />
         </state>
       </provider>
     </entry>
