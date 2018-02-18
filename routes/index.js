@@ -575,17 +575,22 @@ function processV1Request(prequest, presponse) {
 
         if (ids.length == 0 || kinds.length == 0 || titles.length == 0) {
 
-            sendResponse('Что-то пошло не так... ой ой');
+            searchIntent(app, parameters);
             return;
         }
         console.log("raw input=:" + rawQuery);
         let text = rawQuery;
-        let selected = 0;
+        let selected = -1;
         for (var j = 0; j < count; j++) {
             if (text == titles[j]) {
                 selected = j;
                 break;
             }
+        }
+        if (selected == -1) {
+
+            searchIntent(app, parameters);
+            return;
         }
 
         let id = ids[selected];
