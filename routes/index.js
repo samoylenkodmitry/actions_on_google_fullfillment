@@ -114,8 +114,8 @@ function processV1Request(prequest, presponse) {
         console.log('isUndefined1=' + (!paramQuery));
         console.log('isUndefined2=' + (!!paramQuery));
         console.log('isUndefined3=' + (typeof(paramQuery) == 'undefined'));
-        console.log('isUndefined4=' + (paramQuery === undefined);
-        console.log('isUndefined5=' + (paramQuery === 'undefined');
+        console.log('isUndefined4=' + (paramQuery === undefined));
+        console.log('isUndefined5=' + (paramQuery === 'undefined'));
         if (isUndefined(paramQuery)) {
             paramQuery = rawQuery;
             console.log("raw: " + rawQuery);
