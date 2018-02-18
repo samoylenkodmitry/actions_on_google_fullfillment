@@ -16,14 +16,24 @@ exports.dialogflowFirebaseFulfillment = functions.https.onRequest((request, resp
 });
 
 
+function isUndefined(originalRequest) {
+    return originalRequest == 'undefined';
+}
+
+function validStr(queryname) {
+    return !isUndefined(queryname) && queryname.length > 0;
+}
+
 function processV1Request(prequest, presponse) {
     console.log("in vi request");
     let action = prequest.body.result.action;
     console.log("got action: " + JSON.stringify(action));
     let parameters = prequest.body.result.parameters;
-    let rawQuery = prequest.body.originalRequest == 'undefined' ? "" :
-        prequest.body.originalRequest.data.inputs == 'undefined' ? "" :
+
+    let rawQuery = isUndefined(prequest.body.originalRequest) ? "" :
+        isUndefined(prequest.body.originalRequest.data.inputs) ? "" :
             prequest.body.originalRequest.data.inputs.length <= 0 ? "" : prequest.body.originalRequest.data.inputs[0].rawInputs[0].query;
+
     console.log("got params: " + JSON.stringify(parameters));
     let inputContexts = prequest.body.result.contexts;
     console.log("got context: " + JSON.stringify(inputContexts));
@@ -171,27 +181,19 @@ function processV1Request(prequest, presponse) {
         let kind = 1;
         for (var i = 0; i < inputContexts.length; i++) {
             var ctx = inputContexts[i];
-            console.log(ctx);
             let name = ctx.name;
-            console.log("name:" + name);
             if ("search_result" == name) {
-                console.log(ctx.parameters);
                 let ctxParams = ctx.parameters;
-                console.log(ctxParams.any);
                 contextSearchResult = ctxParams.any;
 
             }
             if ("search_result_val" == name) {
-                console.log(ctx.parameters);
                 let ctxParams = ctx.parameters;
-                console.log(ctxParams.id);
                 id = ctxParams.id;
 
             }
             if ("search_result_kind" == name) {
-                console.log(ctx.parameters);
                 let ctxParams = ctx.parameters;
-                console.log(ctxParams.kind);
                 kind = ctxParams.kind;
 
             }
@@ -199,7 +201,10 @@ function processV1Request(prequest, presponse) {
         if (id == -1 && contextSearchResult == "") {
             contextSearchResult = parameters.queryname;
         }
-
+        if (validStr(parameters.queryname)) {
+            contextSearchResult = parameters.queryname;
+            id = -1;
+        }
         console.log(id);
         let byIdUrl = "https://api.ivi.ru/mobileapi/" + (kind == 1 ? "videoinfo" : "compilationinfo") + "/v5/?id=" + id + "&app_version=10773";
         let reqURL = "https://api.ivi.ru/mobileapi/search/v5/?from=0&to=0&app_version=870&query="
@@ -264,27 +269,19 @@ function processV1Request(prequest, presponse) {
         let kind = 1;
         for (var i = 0; i < inputContexts.length; i++) {
             var ctx = inputContexts[i];
-            console.log(ctx);
             let name = ctx.name;
-            console.log("name:" + name);
             if ("search_result" == name) {
-                console.log(ctx.parameters);
                 let ctxParams = ctx.parameters;
-                console.log(ctxParams.any);
                 contextSearchResult = ctxParams.any;
 
             }
             if ("search_result_val" == name) {
-                console.log(ctx.parameters);
                 let ctxParams = ctx.parameters;
-                console.log(ctxParams.id);
                 id = ctxParams.id;
 
             }
             if ("search_result_kind" == name) {
-                console.log(ctx.parameters);
                 let ctxParams = ctx.parameters;
-                console.log(ctxParams.kind);
                 kind = ctxParams.kind;
 
             }
@@ -292,8 +289,11 @@ function processV1Request(prequest, presponse) {
 
         console.log(id);
         if (id == -1 && contextSearchResult == "") {
-            console.log(parameters.queryname);
             contextSearchResult = parameters.queryname;
+        }
+        if (validStr(parameters.queryname)) {
+            contextSearchResult = parameters.queryname;
+            id = -1;
         }
         let byIdUrl = "https://api.ivi.ru/mobileapi/" + (kind == 1 ? "videoinfo" : "compilationinfo") + "/v5/?id=" + id + "&app_version=10773";
         let reqURL = "https://api.ivi.ru/mobileapi/search/v5/?from=0&to=0&app_version=870&query="
@@ -390,27 +390,19 @@ function processV1Request(prequest, presponse) {
         let kind = 1;
         for (var i = 0; i < inputContexts.length; i++) {
             var ctx = inputContexts[i];
-            console.log(ctx);
             let name = ctx.name;
-            console.log("name:" + name);
             if ("search_result" == name) {
-                console.log(ctx.parameters);
                 let ctxParams = ctx.parameters;
-                console.log(ctxParams.any);
                 contextSearchResult = ctxParams.any;
 
             }
             if ("search_result_val" == name) {
-                console.log(ctx.parameters);
                 let ctxParams = ctx.parameters;
-                console.log(ctxParams.id);
                 id = ctxParams.id;
 
             }
             if ("search_result_kind" == name) {
-                console.log(ctx.parameters);
                 let ctxParams = ctx.parameters;
-                console.log(ctxParams.kind);
                 kind = ctxParams.kind;
 
             }
@@ -418,8 +410,11 @@ function processV1Request(prequest, presponse) {
 
         console.log(id);
         if (id == -1 && contextSearchResult == "") {
-            console.log(parameters.queryname);
             contextSearchResult = parameters.queryname;
+        }
+        if (validStr(parameters.queryname)) {
+            contextSearchResult = parameters.queryname;
+            id = -1;
         }
         let byIdUrl = "https://api.ivi.ru/mobileapi/" + (kind == 1 ? "videoinfo" : "compilationinfo") + "/v5/?id=" + id + "&fields=id,title&app_version=10773";
         let reqURL = "https://api.ivi.ru/mobileapi/search/v5/?from=0&to=0&app_version=870&fields=id,title&query="
