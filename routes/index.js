@@ -110,8 +110,10 @@ function processV1Request(prequest, presponse) {
         console.log(parameters);
         var paramQuery = parameters.any;
         console.log('query=' + paramQuery);
+        console.log('isUndefined=' + isUndefined(paramQuery));
         if (isUndefined(paramQuery)) {
             paramQuery = rawQuery;
+            console.log("raw: " + rawQuery);
         }
         let reqURL = "https://api.ivi.ru/mobileapi/search/v5/?from=0&to=4&app_version=870&query="
             + encodeURIComponent(paramQuery);
@@ -263,7 +265,7 @@ function processV1Request(prequest, presponse) {
                         .addSuggestions(['Похожие', 'Трейлер'])
                         .addSuggestionLink('Описание', 'https://www.ivi.ru/watch/' + id + '/description')
                         .addSimpleResponse({
-                            speech: 'а вот и описание к ' + title + ": " + syn,
+                            speech: 'а вот и описание к ' + title + ": ",
                             displayText: 'Есть описание!'
                         })
                 );
@@ -649,7 +651,7 @@ function processV1Request(prequest, presponse) {
                         .addSuggestions(['Похожие', 'Трейлер'])
                         .addSuggestionLink('Описание', 'https://www.ivi.ru/watch/' + id + '/description')
                         .addSimpleResponse({
-                            speech: 'а вот и описание к ' + title + ": " + syn,
+                            speech: 'а вот и описание к ' + title + ": ",
                             displayText: 'Вот, что-то нашлось:'
                         })
                 );
