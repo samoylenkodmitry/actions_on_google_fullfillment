@@ -23,7 +23,7 @@ function isUndefined(originalRequest) {
 function validStr(queryname) {
     if (isUndefined(queryname)) return false;
 
-    return queryname.length > 0;
+    return queryname && queryname.length > 0;
 }
 
 function processV1Request(prequest, presponse) {
