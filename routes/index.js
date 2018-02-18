@@ -21,7 +21,9 @@ function isUndefined(originalRequest) {
 }
 
 function validStr(queryname) {
-    return !isUndefined(queryname) && queryname.length > 0;
+    if (isUndefined(queryname)) return false;
+
+    return  queryname.length > 0;
 }
 
 function processV1Request(prequest, presponse) {
