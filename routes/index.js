@@ -108,8 +108,11 @@ function processV1Request(prequest, presponse) {
     function searchIntent(app, parameters) {
         console.log("in search intent");
         console.log(parameters);
-        let paramQuery = parameters.any;
+        var paramQuery = parameters.any;
         console.log('query=' + paramQuery);
+        if (isUndefined(paramQuery)) {
+            paramQuery = rawQuery;
+        }
         let reqURL = "https://api.ivi.ru/mobileapi/search/v5/?from=0&to=4&app_version=870&query="
             + encodeURIComponent(paramQuery);
         console.log('url=' + reqURL);
