@@ -1,7 +1,7 @@
 'use strict';
 
 //https://api.ivi.ru/mobileapi/categories/v5/?app_version=10942&fields=genres.title-id-category_id
-let genresJson = JSON.parse( "{\"result\": [{\"genres\": [{\"category_id\": 14, \"id\": 161, \"title\": \"Артхаус\"}, {\"category_id\": 14, \"id\": 94, \"title\": \"Боевики\"}, {\"category_id\": 14, \"id\": 103, \"title\": \"Военные\"}, {\"category_id\": 14, \"id\": 97, \"title\": \"Детективы\"}, {\"category_id\": 14, \"id\": 198, \"title\": \"Для всей семьи\"}, {\"category_id\": 14, \"id\": 160, \"title\": \"Для детей\"}, {\"category_id\": 14, \"id\": 109, \"title\": \"Документальные\"}, {\"category_id\": 14, \"id\": 105, \"title\": \"Драмы\"}, {\"category_id\": 14, \"id\": 192, \"title\": \"Исторические\"}, {\"category_id\": 14, \"id\": 95, \"title\": \"Комедии\"}, {\"category_id\": 14, \"id\": 107, \"title\": \"Мелодрамы\"}, {\"category_id\": 14, \"id\": 101, \"title\": \"Приключения\"}, {\"category_id\": 14, \"id\": 168, \"title\": \"Советское кино\"}, {\"category_id\": 14, \"id\": 127, \"title\": \"Триллеры\"}, {\"category_id\": 14, \"id\": 99, \"title\": \"Ужасы\"}, {\"category_id\": 14, \"id\": 166, \"title\": \"Фантастика\"}, {\"category_id\": 14, \"id\": 204, \"title\": \"Фэнтези\"}, {\"category_id\": 14, \"id\": 211, \"title\": \"Зарубежные\"}, {\"category_id\": 14, \"id\": 169, \"title\": \"Эротика\"}, {\"category_id\": 14, \"id\": 205, \"title\": \"Русские\"}, {\"category_id\": 14, \"id\": 201, \"title\": \"Мистические\"}, {\"category_id\": 14, \"id\": 228, \"title\": \"Спорт\"}, {\"category_id\": 14, \"id\": 225, \"title\": \"Вестерн\"}, {\"category_id\": 14, \"id\": 226, \"title\": \"Биография\"}, {\"category_id\": 14, \"id\": 189, \"title\": \"Музыкальные\"}, {\"category_id\": 14, \"id\": 218, \"title\": \"Криминал\"}, {\"category_id\": 14, \"id\": 203, \"title\": \"Экранизации\"}, {\"category_id\": 14, \"id\": 229, \"title\": \"Фильм-нуар\"}, {\"category_id\": 14, \"id\": 227, \"title\": \"Мюзикл\"}, {\"category_id\": 14, \"id\": 164, \"title\": \"Интервью\"}, {\"category_id\": 14, \"id\": 163, \"title\": \"Мировая классика\"}, {\"category_id\": 14, \"id\": 191, \"title\": \"Немое кино\"}, {\"category_id\": 14, \"id\": 167, \"title\": \"Короткометражки\"}, {\"category_id\": 14, \"id\": 187, \"title\": \"Фильмы-спектакли\"}]}, {\"genres\": [{\"category_id\": 15, \"id\": 93, \"title\": \"Боевики\"}, {\"category_id\": 15, \"id\": 102, \"title\": \"Военные\"}, {\"category_id\": 15, \"id\": 96, \"title\": \"Детективы\"}, {\"category_id\": 15, \"id\": 188, \"title\": \"Драмы\"}, {\"category_id\": 15, \"id\": 193, \"title\": \"Исторические\"}, {\"category_id\": 15, \"id\": 110, \"title\": \"Комедийные\"}, {\"category_id\": 15, \"id\": 217, \"title\": \"Криминал\"}, {\"category_id\": 15, \"id\": 196, \"title\": \"Мелодрамы\"}, {\"category_id\": 15, \"id\": 100, \"title\": \"Приключения\"}, {\"category_id\": 15, \"id\": 106, \"title\": \"Романтические\"}, {\"category_id\": 15, \"id\": 262, \"title\": \"Телешоу\"}, {\"category_id\": 15, \"id\": 128, \"title\": \"Триллеры\"}, {\"category_id\": 15, \"id\": 190, \"title\": \"Фантастические\"}, {\"category_id\": 15, \"id\": 230, \"title\": \"Биография\"}, {\"category_id\": 15, \"id\": 236, \"title\": \"Фэнтези\"}, {\"category_id\": 15, \"id\": 213, \"title\": \"Русские\"}, {\"category_id\": 15, \"id\": 212, \"title\": \"Зарубежные\"}, {\"category_id\": 15, \"id\": 195, \"title\": \"Мистические\"}, {\"category_id\": 15, \"id\": 108, \"title\": \"Документальные\"}, {\"category_id\": 15, \"id\": 199, \"title\": \"Для всей семьи\"}, {\"category_id\": 15, \"id\": 235, \"title\": \"Ужасы\"}, {\"category_id\": 15, \"id\": 234, \"title\": \"Спорт\"}, {\"category_id\": 15, \"id\": 233, \"title\": \"Мюзикл\"}, {\"category_id\": 15, \"id\": 232, \"title\": \"Музыка\"}, {\"category_id\": 15, \"id\": 220, \"title\": \"Для детей\"}]}, {\"genres\": [{\"category_id\": 17, \"id\": 125, \"title\": \"Аниме\"}, {\"category_id\": 17, \"id\": 124, \"title\": \"Для взрослых\"}, {\"category_id\": 17, \"id\": 123, \"title\": \"Для детей\"}, {\"category_id\": 17, \"id\": 214, \"title\": \"Зарубежные\"}, {\"category_id\": 17, \"id\": 170, \"title\": \"Полнометражные\"}, {\"category_id\": 17, \"id\": 255, \"title\": \"Приключения\"}, {\"category_id\": 17, \"id\": 210, \"title\": \"Развивающие\"}, {\"category_id\": 17, \"id\": 171, \"title\": \"Сериалы\"}, {\"category_id\": 17, \"id\": 172, \"title\": \"Советские\"}, {\"category_id\": 17, \"id\": 260, \"title\": \"Фэнтези\"}, {\"category_id\": 17, \"id\": 215, \"title\": \"Русские\"}, {\"category_id\": 17, \"id\": 259, \"title\": \"Фантастика\"}, {\"category_id\": 17, \"id\": 258, \"title\": \"Ужасы\"}, {\"category_id\": 17, \"id\": 257, \"title\": \"Триллер\"}, {\"category_id\": 17, \"id\": 256, \"title\": \"Спорт\"}, {\"category_id\": 17, \"id\": 254, \"title\": \"Мюзикл\"}, {\"category_id\": 17, \"id\": 253, \"title\": \"Мелодрама\"}, {\"category_id\": 17, \"id\": 252, \"title\": \"Криминал\"}, {\"category_id\": 17, \"id\": 251, \"title\": \"Комедия\"}, {\"category_id\": 17, \"id\": 250, \"title\": \"История\"}, {\"category_id\": 17, \"id\": 249, \"title\": \"Драма\"}, {\"category_id\": 17, \"id\": 247, \"title\": \"Детектив\"}, {\"category_id\": 17, \"id\": 246, \"title\": \"Военный\"}, {\"category_id\": 17, \"id\": 245, \"title\": \"Вестерн\"}, {\"category_id\": 17, \"id\": 244, \"title\": \"Боевик\"}, {\"category_id\": 17, \"id\": 243, \"title\": \"Биография\"}, {\"category_id\": 17, \"id\": 219, \"title\": \"Для всей семьи\"}]}, {\"genres\": [{\"category_id\": 16, \"id\": 119, \"title\": \"Познавательные\"}, {\"category_id\": 16, \"id\": 238, \"title\": \"Видеоигры\"}, {\"category_id\": 16, \"id\": 216, \"title\": \"Развлекательные\"}, {\"category_id\": 16, \"id\": 111, \"title\": \"Юмористические\"}, {\"category_id\": 16, \"id\": 174, \"title\": \"Увлечения\"}, {\"category_id\": 16, \"id\": 173, \"title\": \"Живая природа\"}, {\"category_id\": 16, \"id\": 130, \"title\": \"Кулинария\"}, {\"category_id\": 16, \"id\": 126, \"title\": \"Воспитание детей\"}, {\"category_id\": 16, \"id\": 242, \"title\": \"Ток-шоу\"}, {\"category_id\": 16, \"id\": 241, \"title\": \"Реальное ТВ\"}, {\"category_id\": 16, \"id\": 122, \"title\": \"Спорт\"}, {\"category_id\": 16, \"id\": 118, \"title\": \"Охота и рыбалка\"}, {\"category_id\": 16, \"id\": 117, \"title\": \"Вокруг света\"}, {\"category_id\": 16, \"id\": 116, \"title\": \"Дом и сад\"}, {\"category_id\": 16, \"id\": 239, \"title\": \"Музыка\"}, {\"category_id\": 16, \"id\": 114, \"title\": \"Психология и гороскопы\"}, {\"category_id\": 16, \"id\": 112, \"title\": \"О знаменитостях\"}, {\"category_id\": 16, \"id\": 237, \"title\": \"Биография\"}, {\"category_id\": 16, \"id\": 197, \"title\": \"Мистические\"}, {\"category_id\": 16, \"id\": 223, \"title\": \"Русские\"}, {\"category_id\": 16, \"id\": 224, \"title\": \"Зарубежные\"}, {\"category_id\": 16, \"id\": 222, \"title\": \"Документальные\"}, {\"category_id\": 16, \"id\": 221, \"title\": \"Для детей\"}, {\"category_id\": 16, \"id\": 200, \"title\": \"Для всей семьи\"}]}, {\"genres\": [{\"category_id\": 20, \"id\": 194, \"title\": \"Хочу всё знать\"}, {\"category_id\": 20, \"id\": 186, \"title\": \"Про животных\"}, {\"category_id\": 20, \"id\": 184, \"title\": \"Аниме\"}, {\"category_id\": 20, \"id\": 183, \"title\": \"Детские песни\"}, {\"category_id\": 20, \"id\": 182, \"title\": \"Фильмы\"}, {\"category_id\": 20, \"id\": 181, \"title\": \"Западные мультфильмы\"}, {\"category_id\": 20, \"id\": 180, \"title\": \"Сказки\"}, {\"category_id\": 20, \"id\": 179, \"title\": \"Русские мультфильмы\"}]}, {\"genres\": [{\"category_id\": 18, \"id\": 202, \"title\": \"Никакой\"}]}]}" );
+let genresJson = JSON.parse("{\"result\": [{\"genres\": [{\"category_id\": 14, \"id\": 161, \"title\": \"Артхаус\"}, {\"category_id\": 14, \"id\": 94, \"title\": \"Боевики\"}, {\"category_id\": 14, \"id\": 103, \"title\": \"Военные\"}, {\"category_id\": 14, \"id\": 97, \"title\": \"Детективы\"}, {\"category_id\": 14, \"id\": 198, \"title\": \"Для всей семьи\"}, {\"category_id\": 14, \"id\": 160, \"title\": \"Для детей\"}, {\"category_id\": 14, \"id\": 109, \"title\": \"Документальные\"}, {\"category_id\": 14, \"id\": 105, \"title\": \"Драмы\"}, {\"category_id\": 14, \"id\": 192, \"title\": \"Исторические\"}, {\"category_id\": 14, \"id\": 95, \"title\": \"Комедии\"}, {\"category_id\": 14, \"id\": 107, \"title\": \"Мелодрамы\"}, {\"category_id\": 14, \"id\": 101, \"title\": \"Приключения\"}, {\"category_id\": 14, \"id\": 168, \"title\": \"Советское кино\"}, {\"category_id\": 14, \"id\": 127, \"title\": \"Триллеры\"}, {\"category_id\": 14, \"id\": 99, \"title\": \"Ужасы\"}, {\"category_id\": 14, \"id\": 166, \"title\": \"Фантастика\"}, {\"category_id\": 14, \"id\": 204, \"title\": \"Фэнтези\"}, {\"category_id\": 14, \"id\": 211, \"title\": \"Зарубежные\"}, {\"category_id\": 14, \"id\": 169, \"title\": \"Эротика\"}, {\"category_id\": 14, \"id\": 205, \"title\": \"Русские\"}, {\"category_id\": 14, \"id\": 201, \"title\": \"Мистические\"}, {\"category_id\": 14, \"id\": 228, \"title\": \"Спорт\"}, {\"category_id\": 14, \"id\": 225, \"title\": \"Вестерн\"}, {\"category_id\": 14, \"id\": 226, \"title\": \"Биография\"}, {\"category_id\": 14, \"id\": 189, \"title\": \"Музыкальные\"}, {\"category_id\": 14, \"id\": 218, \"title\": \"Криминал\"}, {\"category_id\": 14, \"id\": 203, \"title\": \"Экранизации\"}, {\"category_id\": 14, \"id\": 229, \"title\": \"Фильм-нуар\"}, {\"category_id\": 14, \"id\": 227, \"title\": \"Мюзикл\"}, {\"category_id\": 14, \"id\": 164, \"title\": \"Интервью\"}, {\"category_id\": 14, \"id\": 163, \"title\": \"Мировая классика\"}, {\"category_id\": 14, \"id\": 191, \"title\": \"Немое кино\"}, {\"category_id\": 14, \"id\": 167, \"title\": \"Короткометражки\"}, {\"category_id\": 14, \"id\": 187, \"title\": \"Фильмы-спектакли\"}]}, {\"genres\": [{\"category_id\": 15, \"id\": 93, \"title\": \"Боевики\"}, {\"category_id\": 15, \"id\": 102, \"title\": \"Военные\"}, {\"category_id\": 15, \"id\": 96, \"title\": \"Детективы\"}, {\"category_id\": 15, \"id\": 188, \"title\": \"Драмы\"}, {\"category_id\": 15, \"id\": 193, \"title\": \"Исторические\"}, {\"category_id\": 15, \"id\": 110, \"title\": \"Комедийные\"}, {\"category_id\": 15, \"id\": 217, \"title\": \"Криминал\"}, {\"category_id\": 15, \"id\": 196, \"title\": \"Мелодрамы\"}, {\"category_id\": 15, \"id\": 100, \"title\": \"Приключения\"}, {\"category_id\": 15, \"id\": 106, \"title\": \"Романтические\"}, {\"category_id\": 15, \"id\": 262, \"title\": \"Телешоу\"}, {\"category_id\": 15, \"id\": 128, \"title\": \"Триллеры\"}, {\"category_id\": 15, \"id\": 190, \"title\": \"Фантастические\"}, {\"category_id\": 15, \"id\": 230, \"title\": \"Биография\"}, {\"category_id\": 15, \"id\": 236, \"title\": \"Фэнтези\"}, {\"category_id\": 15, \"id\": 213, \"title\": \"Русские\"}, {\"category_id\": 15, \"id\": 212, \"title\": \"Зарубежные\"}, {\"category_id\": 15, \"id\": 195, \"title\": \"Мистические\"}, {\"category_id\": 15, \"id\": 108, \"title\": \"Документальные\"}, {\"category_id\": 15, \"id\": 199, \"title\": \"Для всей семьи\"}, {\"category_id\": 15, \"id\": 235, \"title\": \"Ужасы\"}, {\"category_id\": 15, \"id\": 234, \"title\": \"Спорт\"}, {\"category_id\": 15, \"id\": 233, \"title\": \"Мюзикл\"}, {\"category_id\": 15, \"id\": 232, \"title\": \"Музыка\"}, {\"category_id\": 15, \"id\": 220, \"title\": \"Для детей\"}]}, {\"genres\": [{\"category_id\": 17, \"id\": 125, \"title\": \"Аниме\"}, {\"category_id\": 17, \"id\": 124, \"title\": \"Для взрослых\"}, {\"category_id\": 17, \"id\": 123, \"title\": \"Для детей\"}, {\"category_id\": 17, \"id\": 214, \"title\": \"Зарубежные\"}, {\"category_id\": 17, \"id\": 170, \"title\": \"Полнометражные\"}, {\"category_id\": 17, \"id\": 255, \"title\": \"Приключения\"}, {\"category_id\": 17, \"id\": 210, \"title\": \"Развивающие\"}, {\"category_id\": 17, \"id\": 171, \"title\": \"Сериалы\"}, {\"category_id\": 17, \"id\": 172, \"title\": \"Советские\"}, {\"category_id\": 17, \"id\": 260, \"title\": \"Фэнтези\"}, {\"category_id\": 17, \"id\": 215, \"title\": \"Русские\"}, {\"category_id\": 17, \"id\": 259, \"title\": \"Фантастика\"}, {\"category_id\": 17, \"id\": 258, \"title\": \"Ужасы\"}, {\"category_id\": 17, \"id\": 257, \"title\": \"Триллер\"}, {\"category_id\": 17, \"id\": 256, \"title\": \"Спорт\"}, {\"category_id\": 17, \"id\": 254, \"title\": \"Мюзикл\"}, {\"category_id\": 17, \"id\": 253, \"title\": \"Мелодрама\"}, {\"category_id\": 17, \"id\": 252, \"title\": \"Криминал\"}, {\"category_id\": 17, \"id\": 251, \"title\": \"Комедия\"}, {\"category_id\": 17, \"id\": 250, \"title\": \"История\"}, {\"category_id\": 17, \"id\": 249, \"title\": \"Драма\"}, {\"category_id\": 17, \"id\": 247, \"title\": \"Детектив\"}, {\"category_id\": 17, \"id\": 246, \"title\": \"Военный\"}, {\"category_id\": 17, \"id\": 245, \"title\": \"Вестерн\"}, {\"category_id\": 17, \"id\": 244, \"title\": \"Боевик\"}, {\"category_id\": 17, \"id\": 243, \"title\": \"Биография\"}, {\"category_id\": 17, \"id\": 219, \"title\": \"Для всей семьи\"}]}, {\"genres\": [{\"category_id\": 16, \"id\": 119, \"title\": \"Познавательные\"}, {\"category_id\": 16, \"id\": 238, \"title\": \"Видеоигры\"}, {\"category_id\": 16, \"id\": 216, \"title\": \"Развлекательные\"}, {\"category_id\": 16, \"id\": 111, \"title\": \"Юмористические\"}, {\"category_id\": 16, \"id\": 174, \"title\": \"Увлечения\"}, {\"category_id\": 16, \"id\": 173, \"title\": \"Живая природа\"}, {\"category_id\": 16, \"id\": 130, \"title\": \"Кулинария\"}, {\"category_id\": 16, \"id\": 126, \"title\": \"Воспитание детей\"}, {\"category_id\": 16, \"id\": 242, \"title\": \"Ток-шоу\"}, {\"category_id\": 16, \"id\": 241, \"title\": \"Реальное ТВ\"}, {\"category_id\": 16, \"id\": 122, \"title\": \"Спорт\"}, {\"category_id\": 16, \"id\": 118, \"title\": \"Охота и рыбалка\"}, {\"category_id\": 16, \"id\": 117, \"title\": \"Вокруг света\"}, {\"category_id\": 16, \"id\": 116, \"title\": \"Дом и сад\"}, {\"category_id\": 16, \"id\": 239, \"title\": \"Музыка\"}, {\"category_id\": 16, \"id\": 114, \"title\": \"Психология и гороскопы\"}, {\"category_id\": 16, \"id\": 112, \"title\": \"О знаменитостях\"}, {\"category_id\": 16, \"id\": 237, \"title\": \"Биография\"}, {\"category_id\": 16, \"id\": 197, \"title\": \"Мистические\"}, {\"category_id\": 16, \"id\": 223, \"title\": \"Русские\"}, {\"category_id\": 16, \"id\": 224, \"title\": \"Зарубежные\"}, {\"category_id\": 16, \"id\": 222, \"title\": \"Документальные\"}, {\"category_id\": 16, \"id\": 221, \"title\": \"Для детей\"}, {\"category_id\": 16, \"id\": 200, \"title\": \"Для всей семьи\"}]}, {\"genres\": [{\"category_id\": 20, \"id\": 194, \"title\": \"Хочу всё знать\"}, {\"category_id\": 20, \"id\": 186, \"title\": \"Про животных\"}, {\"category_id\": 20, \"id\": 184, \"title\": \"Аниме\"}, {\"category_id\": 20, \"id\": 183, \"title\": \"Детские песни\"}, {\"category_id\": 20, \"id\": 182, \"title\": \"Фильмы\"}, {\"category_id\": 20, \"id\": 181, \"title\": \"Западные мультфильмы\"}, {\"category_id\": 20, \"id\": 180, \"title\": \"Сказки\"}, {\"category_id\": 20, \"id\": 179, \"title\": \"Русские мультфильмы\"}]}, {\"genres\": [{\"category_id\": 18, \"id\": 202, \"title\": \"Никакой\"}]}]}");
 
 const functions = require('firebase-functions'); // Cloud Functions for Firebase library
 const DialogflowApp = require('actions-on-google').DialogflowApp; // Google Assistant helper library
@@ -111,9 +111,12 @@ function processV1Request(prequest, presponse) {
             serialsIntent(app);
         },
 
+        'input.genres': () => {
+            genresIntent(app);
+        },
+
         'default': () => {
             sendResponse('>---o_O----< ' + action + " ?");
-            welcomeIntent(app);
         }
     };
 
@@ -401,35 +404,52 @@ function processV1Request(prequest, presponse) {
     function newsIntent(app) {
         console.log("in news intent");
         let catalogId = "1982";
-        let inputPrompt = 'Вот последние новинки';
+        let inputPrompt = 'Вот популярные новинки';
         carouselCatalog(catalogId, app, inputPrompt, true);
     }
 
     function moviesIntent(app) {
         console.log("in movies intent");
         let catalogId = "14";
-        let inputPrompt = 'Вот последние фильмы';
+        let inputPrompt = 'Вот популярные фильмы';
         carouselCatalog(catalogId, app, inputPrompt, false);
     }
 
     function serialsIntent(app) {
         console.log("in movies intent");
         let catalogId = "15";
-        let inputPrompt = 'Вот последние сериалы';
+        let inputPrompt = 'Вот популярные сериалы';
         carouselCatalog(catalogId, app, inputPrompt, false);
     }
 
     function kidsIntent(app) {
         console.log("in kids intent");
         let catalogId = "17";
-        let inputPrompt = 'Вот последние мульфильмы';
+        let inputPrompt = 'Вот популярные мульфильмы';
         carouselCatalog(catalogId, app, inputPrompt, false);
     }
 
-    function carouselCatalog(id, app, inputPrompt, byId) {
-        let reqURL = byId ? "https://api.ivi.ru/mobileapi/collection/catalog/v5/?app_version=10942&id=" + id :
-            "https://api.ivi.ru/mobileapi/catalogue/v5/?from=0&to=19&sort=pop&app_version=10942&category=" + id
-        ;
+    function genresIntent(app) {
+        console.log("in genres intent");
+        console.log("of params: " + JSON.stringify(parameters));
+        let genre = parameters.genres;
+        if (!genre) {
+            searchIntent(app, parameters);
+        } else {
+
+            let inputPrompt = 'Вот популярные фильмы жанра ' + genre;
+            let genreId = getGenreIdByTitle(genre);
+            let url = "https://api.ivi.ru/mobileapi/catalogue/v5/?from=0&to=19&sort=pop&app_version=10942&genre=" + genreId;
+            console.log("url=: "+url);
+            if (genreId > 0) {
+                carouselByRequest(url, app, inputPrompt);
+            } else {
+                newsIntent(app);
+            }
+        }
+    }
+
+    function carouselByRequest(reqURL, app, inputPrompt) {
         doRequest(reqURL, (error, response) => {
             if (error) {
                 app.ask(
@@ -488,6 +508,13 @@ function processV1Request(prequest, presponse) {
                 app.askWithCarousel(inputPrompt, carousel);
             }
         });
+    }
+
+    function carouselCatalog(id, app, inputPrompt, byId) {
+        let reqURL = byId ? "https://api.ivi.ru/mobileapi/collection/catalog/v5/?app_version=10942&id=" + id :
+            "https://api.ivi.ru/mobileapi/catalogue/v5/?from=0&to=19&sort=pop&app_version=10942&category=" + id
+        ;
+        carouselByRequest(reqURL, app, inputPrompt);
     }
 
 
@@ -772,7 +799,7 @@ function processV1Request(prequest, presponse) {
             app.ask(
                 getBasicWatchCardRichResponse(app, syn, desc, title, id, poster)
                     .addSuggestionLink('Смотреть трейлер', 'https://www.ivi.ru/watch/' + id + '/trailers#play')
-                    //.addSuggestionLink('Описание', 'https://www.ivi.ru/watch/' + description_id + '/description')
+                //.addSuggestionLink('Описание', 'https://www.ivi.ru/watch/' + description_id + '/description')
             );
         }
     }
@@ -868,7 +895,7 @@ function processV1Request(prequest, presponse) {
 
     //https://api.ivi.ru/mobileapi/countries/v5/?app_version=10942
     function countryTitleById(id) {
-        console.log("find country id="+id);
+        console.log("find country id=" + id);
         return JSON.parse("{\"result\": {\"2\": \"Россия\", \"2\": \"Беларусь\", \"4\": \"США\", \"5\": \"Новая Зеландия\", \"6\": \"Великобритания\", \"8\": \"Франция\", \"10\": \"Швейцария\", \"12\": \"Китай\", \"13\": \"Таиланд\", \"15\": \"Канада\", \"16\": \"Австралия\", \"17\": \"Польша\", \"18\": \"Дания\", \"19\": \"ЮАР\", \"20\": \"Япония\", \"21\": \"Нидерланды\", \"22\": \"Казахстан\", \"23\": \"Гонконг\", \"24\": \"Германия\", \"25\": \"Южная Корея\", \"27\": \"Австрия\", \"28\": \"Ирландия\", \"29\": \"Италия\", \"30\": \"Румыния\", \"31\": \"Мексика\", \"32\": \"Турция\", \"33\": \"Украина\", \"35\": \"Армения\", \"36\": \"Словакия\", \"37\": \"Грузия\", \"44\": \"Латвия\", \"45\": \"Эстония\", \"46\": \"Литва\", \"48\": \"Испания\", \"49\": \"Швеция\", \"50\": \"Колумбия\", \"51\": \"Исландия\", \"52\": \"Аргентина\", \"54\": \"Финляндия\", \"55\": \"Норвегия\", \"56\": \"Индия\", \"57\": \"Греция\", \"58\": \"Чехия\", \"59\": \"Бразилия\", \"60\": \"Бельгия\", \"61\": \"Португалия\", \"62\": \"Венгрия\", \"63\": \"Индонезия\", \"67\": \"Иран\", \"71\": \"Израиль\", \"72\": \"Вьетнам\", \"74\": \"Малайзия\", \"75\": \"Кипр\", \"76\": \"Сингапур\", \"77\": \"Венесуэла\", \"79\": \"Перу\", \"80\": \"Египет\", \"81\": \"Филиппины\", \"82\": \"Тайвань\", \"83\": \"Югославия\", \"84\": \"Сербия\", \"86\": \"Хорватия\", \"87\": \"СССР\", \"91\": \"Болгария\", \"95\": \"Тунис\", \"97\": \"Чили\", \"98\": \"ОАЭ\", \"104\": \"Мальта\"}}")
             .result[id];
     }
