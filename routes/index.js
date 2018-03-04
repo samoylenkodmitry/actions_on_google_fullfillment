@@ -158,10 +158,11 @@ function processV1Request(prequest, presponse) {
                 for (i = 0; i < result.length; i++) {
                     let item = body.result[i];
                     let poster = item.poster_originals.length > 0 ? item.poster_originals[0].path : "";
+                    let desk = item.synopsis.toString() == "" ? item.description.toString() : item.synopsis.toString();
                     carousel.addItems(app.buildOptionItem("SELECTION_KEY_ONE" + item.id,
                         ['synonym of KEY_ONE 1' + item.id, 'synonym of KEY_ONE 2' + item.id])
                         .setTitle(item.title.toString())
-                        .setDescription(item.description.toString())
+                        .setDescription(desk)
                         .setImage(poster, 'Постер фильма'));
 
                     if (i === 0) {
@@ -256,7 +257,7 @@ function processV1Request(prequest, presponse) {
                 let title = result.title;
                 let id = result.id;
                 let desc = result.duration;
-                let syn = result.synopsis;
+                let syn = item.synopsis.toString() == "" ? item.description.toString() : item.synopsis.toString();
                 app.setContext("search_result_val", 5, {
                     "id": id
                 });
@@ -490,10 +491,11 @@ function processV1Request(prequest, presponse) {
                         for (i = 0; i < result.length; i++) {
                             let item = body.result[i];
                             let poster = item.poster_originals.length > 0 ? item.poster_originals[0].path : "";
+                            let syn = item.synopsis.toString() == "" ? item.description.toString() : item.synopsis.toString();
                             carousel.addItems(app.buildOptionItem("SELECTION_KEY_ONE" + item.id,
                                 ['synonym of KEY_ONE 1' + item.id, 'synonym of KEY_ONE 2' + item.id])
                                 .setTitle(item.title.toString())
-                                .setDescription(item.description.toString())
+                                .setDescription(syn)
                                 .setImage(poster, 'Постер фильма')
                             );
 
@@ -627,7 +629,7 @@ function processV1Request(prequest, presponse) {
                 let title = result.title;
                 let id = result.id;
                 let desc = result.duration;
-                let syn = result.synopsis;
+                let syn = item.synopsis.toString() == "" ? item.description.toString() : item.synopsis.toString();
                 app.setContext("search_result_val", 5, {
                     "id": id
                 });
