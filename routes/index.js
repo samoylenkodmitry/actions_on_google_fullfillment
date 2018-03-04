@@ -424,13 +424,17 @@ function processV1Request(prequest, presponse) {
                     });
                 }
 
-/*                app.ask(
+                let item = body.result[0];
+                app.ask(
                     app.buildRichResponse()
                         .addSimpleResponse({
-                            speech: 'Привет! Не можешь выбрать, что посмотреть? Я подскажу. Вот, например, последние новинки',
-                            displayText: 'Привет! Не можешь выбрать, что посмотреть? Я подскажу. Вот, например, последние новинки'
+                            speech: 'Привет!',
+                            displayText: 'Привет!'
                         })
-                );*/
+                        .addSuggestions(['Новинки', 'Фильмы', 'Сериалы', 'Для детей', "Найти " + item.title])
+                        .addSuggestionLink('ivi.ru', 'https://www.ivi.ru/')
+                );
+                //todo ?
                 app.askWithCarousel('Привет! Не можешь выбрать, что посмотреть? Я подскажу. Вот, например, последние новинки', carousel);
             }
         });
@@ -729,8 +733,8 @@ function processV1Request(prequest, presponse) {
         console.log("body=" + bodyText);
         console.log("subtitle=" + subtitle);
         console.log("title=" + title1);
-        console.log("url="+url);
-        console.log("poster="+poster);
+        console.log("url=" + url);
+        console.log("poster=" + poster);
 
         return app.buildRichResponse()
 
