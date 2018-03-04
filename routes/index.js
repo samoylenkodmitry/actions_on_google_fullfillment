@@ -92,6 +92,22 @@ function processV1Request(prequest, presponse) {
             welcomeIntent(app);
         },
 
+        'input.new': () => {
+            newsIntent(app);
+        },
+
+        'input.movies': () => {
+            moviesIntent(app);
+        },
+
+        'input.kids': () => {
+            kidsIntent(app);
+        },
+
+        'input.serials': () => {
+            serialsIntent(app);
+        },
+
         'default': () => {
             sendResponse('>---o_O----< ' + action + " ?");
             welcomeIntent(app);
@@ -368,7 +384,49 @@ function processV1Request(prequest, presponse) {
 
     function welcomeIntent(app) {
         console.log("in continue intent");
-        let reqURL = "https://api.ivi.ru/mobileapi/collection/catalog/v5/?id=1982&app_version=10942";
+        app.ask(
+            app.buildRichResponse()
+                .addSimpleResponse({
+                    speech: 'Привет!',
+                    displayText: 'Привет!'
+                })
+                .addSuggestions(['Новинки', 'Фильмы', 'Сериалы', 'Для детей'])
+                .addSuggestionLink('ivi.ru', 'https://www.ivi.ru/')
+        );
+    }
+
+    function newsIntent(app) {
+        console.log("in news intent");
+        let catalogId = "1982";
+        let inputPrompt = 'Вот последние новинки';
+        carouselCatalog(catalogId, app, inputPrompt, true);
+    }
+
+    function moviesIntent(app) {
+        console.log("in movies intent");
+        let catalogId = "14";
+        let inputPrompt = 'Вот последние фильмы';
+        carouselCatalog(catalogId, app, inputPrompt, false);
+    }
+
+    function serialsIntent(app) {
+        console.log("in movies intent");
+        let catalogId = "15";
+        let inputPrompt = 'Вот последние сериалы';
+        carouselCatalog(catalogId, app, inputPrompt, false);
+    }
+
+    function kidsIntent(app) {
+        console.log("in kids intent");
+        let catalogId = "17";
+        let inputPrompt = 'Вот последние мульфильмы';
+        carouselCatalog(catalogId, app, inputPrompt, false);
+    }
+
+    function carouselCatalog(id, app, inputPrompt, byId) {
+        let reqURL = byId ? "https://api.ivi.ru/mobileapi/collection/catalog/v5/?app_version=10942&id=" + id :
+            "https://api.ivi.ru/mobileapi/catalogue/v5/?from=0&to=19&sort=pop&app_version=10942&category=" + id
+        ;
         doRequest(reqURL, (error, response) => {
             if (error) {
                 app.ask(
@@ -424,21 +482,11 @@ function processV1Request(prequest, presponse) {
                     });
                 }
 
-                let item = body.result[0];
-                app.ask(
-                    app.buildRichResponse()
-                        .addSimpleResponse({
-                            speech: 'Привет!',
-                            displayText: 'Привет!'
-                        })
-                        .addSuggestions(['Новинки', 'Фильмы', 'Сериалы', 'Для детей', "Найти " + item.title])
-                        .addSuggestionLink('ivi.ru', 'https://www.ivi.ru/')
-                );
-                //todo ?
-                app.askWithCarousel('Привет! Не можешь выбрать, что посмотреть? Я подскажу. Вот, например, последние новинки', carousel);
+                app.askWithCarousel(inputPrompt, carousel);
             }
         });
     }
+
 
     function similarIntent(inputContexts, parameters, app) {
         console.log("in similar intent");
