@@ -773,10 +773,17 @@ function processV1Request(prequest, presponse) {
         }
     }
 
+    function strof(obj) {
+        if (obj) {
+            return "" + obj;
+        }
+        return "";
+    }
+
     function getBasicWatchCardRichResponse(app, syn, desc, title, id, poster) {
-        let bodyText = syn.toString();
-        let subtitle = desc.toString();
-        let title1 = title.toString();
+        let bodyText = strof(syn);
+        let subtitle = strof(desc);
+        let title1 = strof(title);
         let url = 'https://www.ivi.ru/watch/' + id;
         console.log("body=" + bodyText);
         console.log("subtitle=" + subtitle);
