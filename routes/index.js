@@ -239,7 +239,7 @@ function processV1Request(prequest, presponse) {
         let isById = id !== -1;
         doRequest(u, (error, response) => {
             if (error) {
-                sendResponse('Что-то не могу ответить...')
+                sendResponse('Что-то не могу ответить...');
             } else {
                 console.log('body 1: ' + JSON.stringify(response.body));
                 console.log('body 2: ' + response.body);
@@ -317,7 +317,7 @@ function processV1Request(prequest, presponse) {
         let isById = id !== -1;
         doRequest(u, (error, response) => {
             if (error) {
-                sendResponse('Что-то не могу ответить...')
+                sendResponse('Что-то не могу ответить...');
             } else {
                 console.log('body 1: ' + JSON.stringify(response.body));
                 console.log('body 2: ' + response.body);
@@ -368,7 +368,7 @@ function processV1Request(prequest, presponse) {
 
     function welcomeIntent(app) {
         console.log("in continue intent");
-        let reqURL = "https://api.ivi.ru/mobileapi/collection/catalog/v5/?id=4655&from=0&to=0";
+        let reqURL = "https://api.ivi.ru/mobileapi/collection/catalog/v5/?id=1982&app_version=10942";
         doRequest(reqURL, (error, response) => {
             if (error) {
                 app.ask(
@@ -381,18 +381,57 @@ function processV1Request(prequest, presponse) {
                         })
                 );
             } else {
+                console.log('resolved body 1: ' + JSON.stringify(response.body));
+                console.log('resolved body 2: ' + response.body);
                 let body = JSON.parse(response.body);
-                let result = body.result[0];
-                let title = result.title;
-                app.ask(
+                let result = body.result;
+
+                app.setContext("search_result_count", 5, {
+                    "count": result.length
+                });
+                const carousel = app.buildCarousel();
+                var i;
+                for (i = 0; i < result.length; i++) {
+                    let item = body.result[i];
+                    let poster = item.poster_originals.length > 0 ? item.poster_originals[0].path : "";
+                    let syn = item.synopsis.toString() == "" ? item.description.toString() : item.synopsis.toString();
+                    carousel.addItems(app.buildOptionItem("SELECTION_KEY_ONE" + item.id,
+                        ['synonym of KEY_ONE 1' + item.id, 'synonym of KEY_ONE 2' + item.id])
+                        .setTitle(item.title.toString())
+                        .setDescription(syn)
+                        .setImage(poster, 'Постер фильма')
+                    );
+
+                    if (i === 0) {
+                        app.setContext("search_result_val", 5, {
+                            "id": item.id
+                        });
+                        app.setContext("search_result_kind", 5, {
+                            "kind": item.kind
+                        });
+                        app.setContext("search_result", 5, {
+                            "any": item.title
+                        });
+                    }
+                    app.setContext("search_result_val" + i, 5, {
+                        "id": item.id
+                    });
+                    app.setContext("search_result_kind" + i, 5, {
+                        "kind": item.kind
+                    });
+                    app.setContext("search_result" + i, 5, {
+                        "any": item.title
+                    });
+                }
+
+/*                app.ask(
                     app.buildRichResponse()
-                        .addSuggestions(['Найти ' + title, 'Трейлер к ' + title, 'Описание ' + title, 'Похожее на ' + title])
-                        .addSuggestionLink('ivi.ru', 'https://www.ivi.ru/')
                         .addSimpleResponse({
-                            speech: 'Привет!',
-                            displayText: 'Привет! 💁 Чего желаете?'
+                            speech: 'Привет! Не можешь выбрать, что посмотреть? Я подскажу. Вот, например, последние новинки',
+                            displayText: 'Привет! Не можешь выбрать, что посмотреть? Я подскажу. Вот, например, последние новинки'
                         })
-                );
+                );*/
+                app.askWithCarousel('Привет! Не можешь выбрать, что посмотреть? Я подскажу. Вот, например, последние новинки', carousel);
             }
         });
     }
@@ -442,7 +481,7 @@ function processV1Request(prequest, presponse) {
         let isById = id !== -1;
         doRequest(u, (error, response) => {
             if (error) {
-                sendResponse('Что-то не могу ответить...')
+                sendResponse('Что-то не могу ответить...');
             } else {
                 console.log('resolved body 1: ' + JSON.stringify(response.body));
                 console.log('resolved body 2: ' + response.body);
@@ -521,10 +560,7 @@ function processV1Request(prequest, presponse) {
                             });
                         }
 
-                        app.askWithCarousel('Вот фильмы похожие на ' + resolvedTitle,
-                            carousel
-                        )
-                        ;
+                        app.askWithCarousel('Вот фильмы похожие на ' + resolvedTitle, carousel);
                     }
                 });
             }
@@ -611,7 +647,7 @@ function processV1Request(prequest, presponse) {
         let isById = id !== -1;
         doRequest(u, (error, response) => {
             if (error) {
-                sendResponse('Что-то не могу ответить...')
+                sendResponse('Что-то не могу ответить...');
             } else {
                 console.log('body 1: ' + JSON.stringify(response.body));
                 console.log('body 2: ' + response.body);
@@ -630,6 +666,7 @@ function processV1Request(prequest, presponse) {
                 let id = result.id;
                 let desc = result.duration;
                 let syn = result.synopsis.toString() == "" ? result.description.toString() : result.synopsis.toString();
+                console.log(" syn = " + syn);
                 app.setContext("search_result_val", 5, {
                     "id": id
                 });
@@ -641,7 +678,7 @@ function processV1Request(prequest, presponse) {
                 });
 
                 if (kind == 1) {
-                    showBasicWatchCard(app, syn, desc, title, id, id, poster, false)
+                    showBasicWatchCard(app, syn, desc, title, id, id, poster, false);
                 } else {
                     console.log("selected: compilation view " + title);
                     let reqURL = "https://api.ivi.ru/mobileapi/videofromcompilation/v5/?id=" + id + "&from=0&to=1&fields=id&app_version=870";
@@ -685,18 +722,30 @@ function processV1Request(prequest, presponse) {
     }
 
     function getBasicWatchCardRichResponse(app, syn, desc, title, id, poster) {
+        let bodyText = syn.toString();
+        let subtitle = desc.toString();
+        let title1 = title.toString();
+        let url = 'https://www.ivi.ru/watch/' + id;
+        console.log("body=" + bodyText);
+        console.log("subtitle=" + subtitle);
+        console.log("title=" + title1);
+        console.log("url="+url);
+        console.log("poster="+poster);
+
         return app.buildRichResponse()
-            .addBasicCard(app.buildBasicCard(syn)
-                .setImageDisplay('WHITE')
-                .setSubtitle(desc)
-                .setTitle(title)
-                .addButton('Смотреть', 'https://www.ivi.ru/watch/' + id)
-                .setImage(poster, 'Постер фильма'))
+
+            .addBasicCard(
+                app.buildBasicCard(bodyText)
+                    .setSubtitle(subtitle)
+                    .setTitle(title1)
+                    .addButton('Смотреть', url)
+                    .setImage(poster, 'Постер фильма')
+            )
             .addSuggestions(['Похожие', 'Трейлер'])
             .addSimpleResponse({
-                speech: 'а вот и описание к ' + title + ": ",
+                speech: 'а вот и описание к ' + title.toString() + ": ",
                 displayText: 'Вот, что-то нашлось:'
-            })
+            });
     }
 }
 
