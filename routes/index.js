@@ -257,7 +257,7 @@ function processV1Request(prequest, presponse) {
                 let title = result.title;
                 let id = result.id;
                 let desc = result.duration;
-                let syn = item.synopsis.toString() == "" ? item.description.toString() : item.synopsis.toString();
+                let syn = result.synopsis.toString() == "" ? result.description.toString() : result.synopsis.toString();
                 app.setContext("search_result_val", 5, {
                     "id": id
                 });
@@ -629,7 +629,7 @@ function processV1Request(prequest, presponse) {
                 let title = result.title;
                 let id = result.id;
                 let desc = result.duration;
-                let syn = item.synopsis.toString() == "" ? item.description.toString() : item.synopsis.toString();
+                let syn = result.synopsis.toString() == "" ? result.description.toString() : result.synopsis.toString();
                 app.setContext("search_result_val", 5, {
                     "id": id
                 });
