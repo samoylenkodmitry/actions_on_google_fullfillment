@@ -266,22 +266,7 @@ function processV1Request(prequest, presponse) {
                 app.setContext("search_result_kind", 5, {
                     "kind": result.kind
                 });
-
-                app.ask(
-                    app.buildRichResponse()
-                        .addBasicCard(app.buildBasicCard(syn)
-                            .setImageDisplay('WHITE')
-                            .setSubtitle(desc)
-                            .setTitle(title)
-                            .addButton('Смотреть', 'https://www.ivi.ru/watch/' + id)
-                            .setImage(poster, 'Постер фильма'))
-                        .addSuggestions(['Похожие', 'Трейлер'])
-                        .addSuggestionLink('Описание', 'https://www.ivi.ru/watch/' + id + '/description')
-                        .addSimpleResponse({
-                            speech: 'а вот и описание к ' + title + ": ",
-                            displayText: 'Есть описание!'
-                        })
-                );
+                showBasicWatchCard(app, syn, desc, title, id, id, poster);
             }
         });
     }
@@ -654,21 +639,7 @@ function processV1Request(prequest, presponse) {
                 });
 
                 if (kind == 1) {
-                    app.ask(
-                        app.buildRichResponse()
-                            .addBasicCard(app.buildBasicCard(syn)
-                                .setImageDisplay('WHITE')
-                                .setSubtitle(desc)
-                                .setTitle(title)
-                                .addButton('Смотреть', 'https://www.ivi.ru/watch/' + id)
-                                .setImage(poster, 'Постер фильма'))
-                            .addSuggestions(['Похожие', 'Трейлер'])
-                            .addSuggestionLink('Описание', 'https://www.ivi.ru/watch/' + id + '/description')
-                            .addSimpleResponse({
-                                speech: 'а вот и описание к ' + title + ": ",
-                                displayText: 'Вот, что-то нашлось:'
-                            })
-                    );
+                    showBasicWatchCard(app, syn, desc, title, id, id, poster)
                 } else {
                     console.log("selected: compilation view " + title);
                     let reqURL = "https://api.ivi.ru/mobileapi/videofromcompilation/v5/?id=" + id + "&from=0&to=1&fields=id&app_version=870";
@@ -690,26 +661,30 @@ function processV1Request(prequest, presponse) {
                             }
                             let result = body.result[0];
                             let item_id = result.id;
-                            app.ask(
-                                app.buildRichResponse()
-                                    .addBasicCard(app.buildBasicCard(syn)
-                                        .setImageDisplay('WHITE')
-                                        .setSubtitle(desc)
-                                        .setTitle(title)
-                                        .addButton('Смотреть', 'https://www.ivi.ru/watch/' + item_id)
-                                        .setImage(poster, 'Постер фильма'))
-                                    .addSuggestions(['Похожие', 'Трейлер'])
-                                    .addSuggestionLink('Описание', 'https://www.ivi.ru/watch/' + item_id + '/description')
-                                    .addSimpleResponse({
-                                        speech: 'а вот и описание к ' + title + ": ",
-                                        displayText: 'Вот, что-то нашлось:'
-                                    })
-                            );
+                            showBasicWatchCard(app, syn, desc, title, item_id, id, poster)
                         }
                     });
                 }
             }
         });
+    }
+
+    function showBasicWatchCard(app, syn, desc, title, id, descr_id, poster) {
+        app.ask(
+            app.buildRichResponse()
+                .addBasicCard(app.buildBasicCard(syn)
+                    .setImageDisplay('RED')
+                    .setSubtitle(desc)
+                    .setTitle(title)
+                    .addButton('Смотреть', 'https://www.ivi.ru/watch/' + id)
+                    .setImage(poster, 'Постер фильма'))
+                .addSuggestions(['Похожие', 'Трейлер'])
+                .addSuggestionLink('Описание', 'https://www.ivi.ru/watch/' + descr_id + '/description')
+                .addSimpleResponse({
+                    speech: 'а вот и описание к ' + title + ": ",
+                    displayText: 'Вот, что-то нашлось:'
+                })
+        );
     }
 }
 
