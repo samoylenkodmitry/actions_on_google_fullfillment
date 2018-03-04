@@ -653,21 +653,61 @@ function processV1Request(prequest, presponse) {
                     "kind": result.kind
                 });
 
-                app.ask(
-                    app.buildRichResponse()
-                        .addBasicCard(app.buildBasicCard(syn)
-                            .setImageDisplay('WHITE')
-                            .setSubtitle(desc)
-                            .setTitle(title)
-                            .addButton('Смотреть', 'https://www.ivi.ru/watch/' + id)
-                            .setImage(poster, 'Постер фильма'))
-                        .addSuggestions(['Похожие', 'Трейлер'])
-                        .addSuggestionLink('Описание', 'https://www.ivi.ru/watch/' + id + '/description')
-                        .addSimpleResponse({
-                            speech: 'а вот и описание к ' + title + ": ",
-                            displayText: 'Вот, что-то нашлось:'
-                        })
-                );
+                if (kind == 1) {
+                    app.ask(
+                        app.buildRichResponse()
+                            .addBasicCard(app.buildBasicCard(syn)
+                                .setImageDisplay('WHITE')
+                                .setSubtitle(desc)
+                                .setTitle(title)
+                                .addButton('Смотреть', 'https://www.ivi.ru/watch/' + id)
+                                .setImage(poster, 'Постер фильма'))
+                            .addSuggestions(['Похожие', 'Трейлер'])
+                            .addSuggestionLink('Описание', 'https://www.ivi.ru/watch/' + id + '/description')
+                            .addSimpleResponse({
+                                speech: 'а вот и описание к ' + title + ": ",
+                                displayText: 'Вот, что-то нашлось:'
+                            })
+                    );
+                } else {
+                    console.log("selected: compilation view " + title);
+                    let reqURL = "https://api.ivi.ru/mobileapi/videofromcompilation/v5/?id=" + id + "&from=0&to=1&fields=id&app_version=870";
+                    console.log('url=' + reqURL);
+                    doRequest(reqURL, (error, response) => {
+                        if (error) {
+                            sendResponse('Что-то не могу ответить...')
+                        } else {
+                            console.log('body 1: ' + JSON.stringify(response.body));
+                            console.log('body 2: ' + response.body);
+                            let body = JSON.parse(response.body);
+                            if (isUndefined(body.result)) {
+                                sendResponse('Что-то ничего не нашлось');
+                                return;
+                            }
+                            if (body.result.length === 0) {
+                                sendResponse('Что-то ничего не нашлось');
+                                return;
+                            }
+                            let result = body.result[0];
+                            let item_id = result.id;
+                            app.ask(
+                                app.buildRichResponse()
+                                    .addBasicCard(app.buildBasicCard(syn)
+                                        .setImageDisplay('WHITE')
+                                        .setSubtitle(desc)
+                                        .setTitle(title)
+                                        .addButton('Смотреть', 'https://www.ivi.ru/watch/' + item_id)
+                                        .setImage(poster, 'Постер фильма'))
+                                    .addSuggestions(['Похожие', 'Трейлер'])
+                                    .addSuggestionLink('Описание', 'https://www.ivi.ru/watch/' + item_id + '/description')
+                                    .addSimpleResponse({
+                                        speech: 'а вот и описание к ' + title + ": ",
+                                        displayText: 'Вот, что-то нашлось:'
+                                    })
+                            );
+                        }
+                    });
+                }
             }
         });
     }
