@@ -374,11 +374,11 @@ function processV1Request(prequest, presponse) {
                             .setImageDisplay('WHITE')
                             .setTitle(title)
                             .setImage(poster, 'Кадр из трейлера'))
-                        .addSuggestions(['Похожие', 'Описание'])
+                        .addSuggestions(['Показать похожее', 'Описание'])
                         .addSuggestionLink('Смотреть трейлер', 'https://www.ivi.ru/watch/' + id + '/trailers#play')
                         .addSimpleResponse({
-                            speech: 'а вот и трейлер к ' + title,
-                            displayText: 'нашелся трейлер!!'
+                            speech: 'Трейлер к ' + title,
+                            displayText: 'Трейлер к ' + title
                         })
                 );
             }
@@ -434,7 +434,7 @@ function processV1Request(prequest, presponse) {
             if (error) {
                 app.ask(
                     app.buildRichResponse()
-                        .addSuggestions(['Найти ', 'Трейлер ', 'Описание '])
+                        .addSuggestions(['Найти', 'Трейлер ', 'Описание'])
                         .addSuggestionLink('ivi.ru', 'https://www.ivi.ru/')
                         .addSimpleResponse({
                             speech: 'Привет!',
@@ -771,7 +771,8 @@ function processV1Request(prequest, presponse) {
         } else {
             app.ask(
                 getBasicWatchCardRichResponse(app, syn, desc, title, id, poster)
-                    .addSuggestionLink('Описание', 'https://www.ivi.ru/watch/' + description_id + '/description')
+                    .addSuggestionLink('Смотреть трейлер', 'https://www.ivi.ru/watch/' + id + '/trailers#play')
+                    //.addSuggestionLink('Описание', 'https://www.ivi.ru/watch/' + description_id + '/description')
             );
         }
     }
@@ -796,7 +797,7 @@ function processV1Request(prequest, presponse) {
                     .addButton('Смотреть', url)
                     .setImage(poster, 'Постер фильма')
             )
-            .addSuggestions(['Похожие', 'Трейлер'])
+            .addSuggestions(['Показать похожее'])
             .addSimpleResponse({
                 speech: 'а вот и описание к ' + title.toString() + ": ",
                 displayText: 'Вот, что-то нашлось:'
@@ -862,7 +863,7 @@ function processV1Request(prequest, presponse) {
     }
 
     function descStr(result) {
-        return result.year + " " + countryTitleById(result.country) + " " + getGenresStr(result.genres) + " " + result.restrict + "+" + " " + result.duration;
+        return result.year + ", " + countryTitleById(result.country) + ", " + getGenresStr(result.genres) + ", " + result.restrict + "+" + ", " + result.duration;
     }
 
     //https://api.ivi.ru/mobileapi/countries/v5/?app_version=10942
