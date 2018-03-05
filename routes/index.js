@@ -440,7 +440,7 @@ function processV1Request(prequest, presponse) {
             let inputPrompt = 'Вот популярные фильмы жанра ' + genre;
             let genreId = getGenreIdByTitle(genre);
             let url = "https://api.ivi.ru/mobileapi/catalogue/v5/?from=0&to=19&sort=pop&app_version=10942&genre=" + genreId;
-            console.log("url=: "+url);
+            console.log("url=: " + url);
             if (genreId > 0) {
                 carouselByRequest(url, app, inputPrompt);
             } else {
@@ -819,6 +819,7 @@ function processV1Request(prequest, presponse) {
 
             .addBasicCard(
                 app.buildBasicCard(bodyText)
+                    .setImageDisplay('WHITE')
                     .setSubtitle(subtitle)
                     .setTitle(title1)
                     .addButton('Смотреть', url)
@@ -889,8 +890,34 @@ function processV1Request(prequest, presponse) {
         return s1 + ", " + s2;
     }
 
+    function append(country, s) {
+        if (country !== "") {
+            if (s === "") {
+                s = country;
+            } else {
+                s = s + ", " + country;
+            }
+        }
+        return s;
+    }
+
     function descStr(result) {
-        return result.year + ", " + countryTitleById(result.country) + ", " + getGenresStr(result.genres) + ", " + result.restrict + "+" + ", " + result.duration;
+        var s = "";
+        var y = strof(result.year);
+        var country = strof(countryTitleById(result.country));
+        var genres = strof(getGenresStr(result.genres));
+        var r = strof(result.restrict);
+        var d = strof(result.duration);
+        if (r !== "") {
+            r = r + "+";
+        }
+        s = append(y, s);
+        s = append(country, s);
+        s = append(genres, s);
+        s = append(r, s);
+        s = append(d, s);
+        //result.year + ", " + country + ", " + genres + ", " + r + "+" + ", " + d;
+        return s;
     }
 
     //https://api.ivi.ru/mobileapi/countries/v5/?app_version=10942
