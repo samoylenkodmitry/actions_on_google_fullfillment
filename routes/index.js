@@ -374,11 +374,11 @@ function processV1Request(prequest, presponse) {
                 app.ask(
                     app.buildRichResponse()
                         .addBasicCard(app.buildBasicCard("")
-                            .setImageDisplay('WHITE')
+                            .setImageDisplay('DEFAULT')
                             .setTitle(title)
                             .setImage(poster, 'Кадр из трейлера'))
                         .addSuggestions(['Показать похожее', 'Описание'])
-                        .addSuggestionLink('Смотреть трейлер', 'https://www.ivi.ru/watch/' + id + '/trailers#play')
+                        .addSuggestionLink('трейлер', 'https://www.ivi.ru/watch/' + id + '/trailers#play')
                         .addSimpleResponse({
                             speech: 'Трейлер к ' + title,
                             displayText: 'Трейлер к ' + title
@@ -798,7 +798,7 @@ function processV1Request(prequest, presponse) {
         } else {
             app.ask(
                 getBasicWatchCardRichResponse(app, syn, desc, title, id, poster)
-                    .addSuggestionLink('Смотреть трейлер', 'https://www.ivi.ru/watch/' + id + '/trailers#play')
+                    .addSuggestionLink('трейлер', 'https://www.ivi.ru/watch/' + id + '/trailers#play')
                 //.addSuggestionLink('Описание', 'https://www.ivi.ru/watch/' + description_id + '/description')
             );
         }
@@ -819,7 +819,7 @@ function processV1Request(prequest, presponse) {
 
             .addBasicCard(
                 app.buildBasicCard(bodyText)
-                    .setImageDisplay('WHITE')
+                    .setImageDisplay('DEFAULT')
                     .setSubtitle(subtitle)
                     .setTitle(title1)
                     .addButton('Смотреть', url)
