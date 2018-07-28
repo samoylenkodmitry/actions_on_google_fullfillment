@@ -530,7 +530,7 @@ function processV1Request(prequest, presponse) {
                     );
 
                     if (i === 0) {
-                        suggestions += item.title.toString();
+                        suggestions.push(item.title.toString());
                         app.setContext("search_result_val", 5, {
                             "id": item.id
                         });
