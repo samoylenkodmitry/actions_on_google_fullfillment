@@ -518,6 +518,8 @@ function processV1Request(prequest, presponse) {
 
                 const carousel = app.buildCarousel();
                 var i;
+                var suggestsArr = [];
+                suggestsArr = suggestsArr.concat(suggestions);
                 for (i = 0; i < result.length; i++) {
                     let item = body.result[i];
                     let poster = item.poster_originals.length > 0 ? item.poster_originals[0].path : "";
@@ -530,7 +532,7 @@ function processV1Request(prequest, presponse) {
                     );
 
                     if (i === 0) {
-                        suggestions.push(item.title.toString());
+                        suggestsArr.push(item.title.toString());
                         app.setContext("search_result_val", 5, {
                             "id": item.id
                         });
@@ -552,7 +554,7 @@ function processV1Request(prequest, presponse) {
                     });
                 }
 
-                carouselWithChips(app, inputPrompt, suggestions, carousel);
+                carouselWithChips(app, inputPrompt, suggestsArr, carousel);
             }
         });
     }
