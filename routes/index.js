@@ -120,7 +120,7 @@ function processV1Request(prequest, presponse) {
         },
 
         'default': () => {
-             fallbackIntent(app);
+            fallbackIntent(app);
         }
     };
 
@@ -213,10 +213,7 @@ function processV1Request(prequest, presponse) {
                     });
                 }
 
-                app.askWithCarousel('Вот что нашлось:',
-                    carousel
-                )
-                ;
+                carouselWithChips(app, 'Вот что нашлось: ', ['Новинки', 'Порекомендуй что-нибудь', 'Лучшие сериалы'], carousel);
             }
         });
     }
@@ -381,7 +378,7 @@ function processV1Request(prequest, presponse) {
                             .setImageDisplay('DEFAULT')
                             .setTitle(title)
                             .setImage(poster, 'Кадр из трейлера'))
-                        .addSuggestions(['Показать похожее', 'Описание'])
+                        .addSuggestions(['Новинки', 'Порекомендуй что-нибудь', 'Чем я могу помочь?', 'Показать похожее', 'Описание'])
                         .addSuggestionLink('трейлер', 'https://www.ivi.ru/watch/' + id + '/trailers#play')
                         .addSimpleResponse({
                             speech: 'Трейлер к ' + title,
@@ -422,14 +419,14 @@ function processV1Request(prequest, presponse) {
         console.log("in news intent");
         let catalogId = "1982";
         let inputPrompt = 'Самые свежие новинки';
-        carouselCatalog(catalogId, app, inputPrompt, true);
+        carouselCatalog(catalogId, app, inputPrompt, true, ['Порекомендуй что-нибудь', 'Чем я могу помочь?']);
     }
 
     function moviesIntent(app) {
         console.log("in movies intent");
         let catalogId = "14";
         let inputPrompt = 'Популярные фильмы этой недели';
-        carouselCatalog(catalogId, app, inputPrompt, false);
+        carouselCatalog(catalogId, app, inputPrompt, false, ['Новинки', 'Порекомендуй что-нибудь', 'Чем я могу помочь?']);
     }
 
 
@@ -437,14 +434,14 @@ function processV1Request(prequest, presponse) {
         console.log("in movies intent");
         let catalogId = "15";
         let inputPrompt = 'Самые интересные сериалы';
-        carouselCatalog(catalogId, app, inputPrompt, false);
+        carouselCatalog(catalogId, app, inputPrompt, false, ['Новинки', 'Порекомендуй что-нибудь', 'Чем я могу помочь?']);
     }
 
     function kidsIntent(app) {
         console.log("in kids intent");
         let catalogId = "17";
         let inputPrompt = 'Лучшее для детей';
-        carouselCatalog(catalogId, app, inputPrompt, false);
+        carouselCatalog(catalogId, app, inputPrompt, false, ['Порекомендуй что-нибудь', 'Лучшие мультфильмы', 'Поиск']);
     }
 
     function genresIntent(app) {
@@ -460,7 +457,7 @@ function processV1Request(prequest, presponse) {
             let url = "https://api.ivi.ru/mobileapi/catalogue/v5/?from=0&to=19&sort=pop&app_version=10942&genre=" + genreId;
             console.log("url=: " + url);
             if (genreId > 0) {
-                carouselByRequest(url, app, inputPrompt);
+                carouselByRequest(url, app, inputPrompt, ['Новинки', 'Порекомендуй что-нибудь', 'Лучшие сериалы']);
             } else {
                 newsIntent(app);
             }
@@ -472,11 +469,23 @@ function processV1Request(prequest, presponse) {
         let catalogId = "4655";
         let inputPrompt = 'Вот что я рекомендую';
         let url = "https://api.ivi.ru/mobileapi/collection/catalog/v5/?from=0&to=19&app_version=10942&id=" + catalogId;
-        carouselByRequest(url, app, inputPrompt);
+        carouselByRequest(url, app, inputPrompt, ['Чем я могу помочь?', 'Новинки']);
     }
 
-    function carouselByRequest(reqURL, app, inputPrompt) {
-        console.log('requestUrl: '+reqURL);
+    function carouselWithChips(app, inputPrompt, suggestions, carousel) {
+        app.askWithCarousel(
+            app.buildRichResponse()
+                .addSimpleResponse({
+                    speech: inputPrompt,
+                    displayText: inputPrompt
+                })
+                .addSuggestions(suggestions)
+            , carousel);
+    }
+
+    function carouselByRequest(reqURL, app, inputPrompt, suggestionChips) {
+        let suggestions = suggestionChips;
+        console.log('requestUrl: ' + reqURL);
         doRequest(reqURL, (error, response) => {
             if (error) {
                 fallbackIntent(app);
@@ -494,16 +503,6 @@ function processV1Request(prequest, presponse) {
                     "count": result.length
                 });
 
-                                        app.ask(
-            app.buildRichResponse()
-                .addSimpleResponse({
-                    speech: 'Вот что я умею искать:',
-                    displayText: 'Вот что я умею искать:'
-                })
-                .addSuggestions(['Новинки', 'Порекомендуй что-нибудь', 'Лучшие сериалы', 'Фильмы', 'Для детей'])
-                .addSuggestionLink('ivi.ru', 'https://www.ivi.ru/')
-        );
-
 
                 const carousel = app.buildCarousel();
                 var i;
@@ -519,6 +518,7 @@ function processV1Request(prequest, presponse) {
                     );
 
                     if (i === 0) {
+                        suggestions += item.title.toString();
                         app.setContext("search_result_val", 5, {
                             "id": item.id
                         });
@@ -540,17 +540,16 @@ function processV1Request(prequest, presponse) {
                     });
                 }
 
-                app.askWithCarousel(inputPrompt, carousel);
-
+                carouselWithChips(app, inputPrompt, suggestions, carousel);
             }
         });
     }
 
-    function carouselCatalog(id, app, inputPrompt, byId) {
+    function carouselCatalog(id, app, inputPrompt, byId, suggestionChips) {
         let reqURL = byId ? "https://api.ivi.ru/mobileapi/collection/catalog/v5/?app_version=10942&id=" + id :
             "https://api.ivi.ru/mobileapi/catalogue/v5/?from=0&to=19&sort=pop&app_version=10942&category=" + id
         ;
-        carouselByRequest(reqURL, app, inputPrompt);
+        carouselByRequest(reqURL, app, inputPrompt, suggestionChips);
     }
 
 
@@ -605,7 +604,7 @@ function processV1Request(prequest, presponse) {
                 console.log('resolved body 2: ' + response.body);
                 let body = JSON.parse(response.body);
                 if (isUndefined(body.result)) {
-                     fallbackIntent(app);
+                    fallbackIntent(app);
                     return;
                 }
                 if (body.result.length === 0) {
@@ -623,7 +622,7 @@ function processV1Request(prequest, presponse) {
 
                 doRequest(recommendationsUrl, (error, response) => {
                     if (error) {
-                         fallbackIntent(app);
+                        fallbackIntent(app);
                     } else {
 
 
@@ -631,11 +630,11 @@ function processV1Request(prequest, presponse) {
                         console.log('recommends body 2: ' + response.body);
                         let body = JSON.parse(response.body);
                         if (isUndefined(body.result)) {
-                             fallbackIntent(app);
+                            fallbackIntent(app);
                             return;
                         }
                         if (body.result.length === 0) {
-                             fallbackIntent(app);
+                            fallbackIntent(app);
                             return;
                         }
                         let result = body.result;
@@ -678,7 +677,7 @@ function processV1Request(prequest, presponse) {
                             });
                         }
 
-                        app.askWithCarousel('Вот фильмы похожие на ' + resolvedTitle, carousel);
+                        carouselWithChips(app, 'Вот фильмы похожие на ' + resolvedTitle, ['Новинки', 'Порекомендуй что-нибудь', 'Чем я могу помочь?'], carousel);
                     }
                 });
             }
@@ -765,13 +764,13 @@ function processV1Request(prequest, presponse) {
         let isById = id !== -1;
         doRequest(u, (error, response) => {
             if (error) {
-                 fallbackIntent(app);
+                fallbackIntent(app);
             } else {
                 console.log('body 1: ' + JSON.stringify(response.body));
                 console.log('body 2: ' + response.body);
                 let body = JSON.parse(response.body);
                 if (isUndefined(body.result)) {
-                     fallbackIntent(app);
+                    fallbackIntent(app);
                     return;
                 }
                 if (body.result.length === 0) {
@@ -803,13 +802,13 @@ function processV1Request(prequest, presponse) {
                     console.log('url=' + reqURL);
                     doRequest(reqURL, (error, response) => {
                         if (error) {
-                           fallbackIntent(app);
+                            fallbackIntent(app);
                         } else {
                             console.log('body 1: ' + JSON.stringify(response.body));
                             console.log('body 2: ' + response.body);
                             let body = JSON.parse(response.body);
                             if (isUndefined(body.result)) {
-                                 fallbackIntent(app);
+                                fallbackIntent(app);
                                 return;
                             }
                             if (body.result.length === 0) {
@@ -861,7 +860,7 @@ function processV1Request(prequest, presponse) {
                     .addButton('Смотреть', url)
                     .setImage(poster, 'Постер фильма')
             )
-            .addSuggestions(['Показать похожее'])
+            .addSuggestions(['Похожие', 'Трейлер', 'Порекомендуй что-нибудь'])
             .addSimpleResponse({
                 speech: 'а вот и описание к ' + title.toString() + ": ",
                 displayText: 'Вот, что-то нашлось:'
