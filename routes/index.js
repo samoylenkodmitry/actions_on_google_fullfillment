@@ -103,6 +103,10 @@ function processV1Request(prequest, presponse) {
             moviesIntent(app);
         },
 
+        'input.recommend': () => {
+            recommendIntent(app);
+        },
+
         'input.kids': () => {
             kidsIntent(app);
         },
@@ -116,7 +120,7 @@ function processV1Request(prequest, presponse) {
         },
 
         'default': () => {
-            sendResponse('>---o_O----< ' + action + " ?");
+             fallbackIntent(app);
         }
     };
 
@@ -396,7 +400,20 @@ function processV1Request(prequest, presponse) {
                     speech: 'Привет! Не можешь выбрать, что посмотреть? Я подскажу.',
                     displayText: 'Привет! Не можешь выбрать, что посмотреть? Я подскажу.'
                 })
-                .addSuggestions(['Новинки', 'Фильмы', 'Сериалы', 'Для детей'])
+                .addSuggestions(['Новинки', 'Порекомендуй что-нибудь', 'Лучшие сериалы', 'Фильмы', 'Для детей'])
+                .addSuggestionLink('ivi.ru', 'https://www.ivi.ru/')
+        );
+    }
+
+    function fallbackIntent(app) {
+        console.log("in fallback intent");
+        app.ask(
+            app.buildRichResponse()
+                .addSimpleResponse({
+                    speech: 'Вот что я умею искать:',
+                    displayText: 'Вот что я умею искать:'
+                })
+                .addSuggestions(['Новинки', 'Порекомендуй что-нибудь', 'Лучшие сериалы', 'Фильмы', 'Для детей'])
                 .addSuggestionLink('ivi.ru', 'https://www.ivi.ru/')
         );
     }
@@ -404,28 +421,29 @@ function processV1Request(prequest, presponse) {
     function newsIntent(app) {
         console.log("in news intent");
         let catalogId = "1982";
-        let inputPrompt = 'Вот популярные новинки';
+        let inputPrompt = 'Самые свежие новинки';
         carouselCatalog(catalogId, app, inputPrompt, true);
     }
 
     function moviesIntent(app) {
         console.log("in movies intent");
         let catalogId = "14";
-        let inputPrompt = 'Вот популярные фильмы';
+        let inputPrompt = 'Популярные фильмы этой недели';
         carouselCatalog(catalogId, app, inputPrompt, false);
     }
+
 
     function serialsIntent(app) {
         console.log("in movies intent");
         let catalogId = "15";
-        let inputPrompt = 'Вот популярные сериалы';
+        let inputPrompt = 'Самые интересные сериалы';
         carouselCatalog(catalogId, app, inputPrompt, false);
     }
 
     function kidsIntent(app) {
         console.log("in kids intent");
         let catalogId = "17";
-        let inputPrompt = 'Вот популярные мульфильмы';
+        let inputPrompt = 'Лучшее для детей';
         carouselCatalog(catalogId, app, inputPrompt, false);
     }
 
@@ -449,27 +467,44 @@ function processV1Request(prequest, presponse) {
         }
     }
 
+    function recommendIntent(app) {
+        console.log("in movies intent");
+        let catalogId = "4655";
+        let inputPrompt = 'Вот что я рекомендую';
+        let url = "https://api.ivi.ru/mobileapi/collection/catalog/v5/?from=0&to=19&app_version=10942&id=" + catalogId;
+        carouselByRequest(url, app, inputPrompt);
+    }
+
     function carouselByRequest(reqURL, app, inputPrompt) {
+        console.log('requestUrl: '+reqURL);
         doRequest(reqURL, (error, response) => {
             if (error) {
-                app.ask(
-                    app.buildRichResponse()
-                        .addSuggestions(['Найти', 'Трейлер ', 'Описание'])
-                        .addSuggestionLink('ivi.ru', 'https://www.ivi.ru/')
-                        .addSimpleResponse({
-                            speech: 'Привет!',
-                            displayText: 'Привет! 💁 Чего желаете?'
-                        })
-                );
+                fallbackIntent(app);
             } else {
                 console.log('resolved body 1: ' + JSON.stringify(response.body));
                 console.log('resolved body 2: ' + response.body);
                 let body = JSON.parse(response.body);
                 let result = body.result;
 
+                if (result.length <= 0) {
+                    fallbackIntent(app);
+                    return;
+                }
                 app.setContext("search_result_count", 5, {
                     "count": result.length
                 });
+
+                                        app.ask(
+            app.buildRichResponse()
+                .addSimpleResponse({
+                    speech: 'Вот что я умею искать:',
+                    displayText: 'Вот что я умею искать:'
+                })
+                .addSuggestions(['Новинки', 'Порекомендуй что-нибудь', 'Лучшие сериалы', 'Фильмы', 'Для детей'])
+                .addSuggestionLink('ivi.ru', 'https://www.ivi.ru/')
+        );
+
+
                 const carousel = app.buildCarousel();
                 var i;
                 for (i = 0; i < result.length; i++) {
@@ -506,6 +541,7 @@ function processV1Request(prequest, presponse) {
                 }
 
                 app.askWithCarousel(inputPrompt, carousel);
+
             }
         });
     }
@@ -563,17 +599,17 @@ function processV1Request(prequest, presponse) {
         let isById = id !== -1;
         doRequest(u, (error, response) => {
             if (error) {
-                sendResponse('Что-то не могу ответить...');
+                fallbackIntent(app);
             } else {
                 console.log('resolved body 1: ' + JSON.stringify(response.body));
                 console.log('resolved body 2: ' + response.body);
                 let body = JSON.parse(response.body);
                 if (isUndefined(body.result)) {
-                    sendResponse('Что-то ничего не нашлось');
+                     fallbackIntent(app);
                     return;
                 }
                 if (body.result.length === 0) {
-                    sendResponse('Что-то ничего не нашлось');
+                    fallbackIntent(app);
                     return;
                 }
                 let result = isById ? body.result : body.result[0];
@@ -587,7 +623,7 @@ function processV1Request(prequest, presponse) {
 
                 doRequest(recommendationsUrl, (error, response) => {
                     if (error) {
-                        sendResponse('Что-то не могу припомнить ни одного похожего на ' + resolvedTitle + " фильма")
+                         fallbackIntent(app);
                     } else {
 
 
@@ -595,11 +631,11 @@ function processV1Request(prequest, presponse) {
                         console.log('recommends body 2: ' + response.body);
                         let body = JSON.parse(response.body);
                         if (isUndefined(body.result)) {
-                            sendResponse('Что-то ничего не нашлось');
+                             fallbackIntent(app);
                             return;
                         }
                         if (body.result.length === 0) {
-                            sendResponse('Что-то не нашлось нашлось у нас похожих на ' + resolvedTitle);
+                             fallbackIntent(app);
                             return;
                         }
                         let result = body.result;
@@ -729,17 +765,17 @@ function processV1Request(prequest, presponse) {
         let isById = id !== -1;
         doRequest(u, (error, response) => {
             if (error) {
-                sendResponse('Что-то не могу ответить...');
+                 fallbackIntent(app);
             } else {
                 console.log('body 1: ' + JSON.stringify(response.body));
                 console.log('body 2: ' + response.body);
                 let body = JSON.parse(response.body);
                 if (isUndefined(body.result)) {
-                    sendResponse('Что-то ничего не нашлось');
+                     fallbackIntent(app);
                     return;
                 }
                 if (body.result.length === 0) {
-                    sendResponse('Что-то ничего не нашлось');
+                    fallbackIntent(app);
                     return;
                 }
                 let result = isById ? body.result : body.result[0];
@@ -767,17 +803,17 @@ function processV1Request(prequest, presponse) {
                     console.log('url=' + reqURL);
                     doRequest(reqURL, (error, response) => {
                         if (error) {
-                            sendResponse('Что-то не могу ответить...')
+                           fallbackIntent(app);
                         } else {
                             console.log('body 1: ' + JSON.stringify(response.body));
                             console.log('body 2: ' + response.body);
                             let body = JSON.parse(response.body);
                             if (isUndefined(body.result)) {
-                                sendResponse('Что-то ничего не нашлось');
+                                 fallbackIntent(app);
                                 return;
                             }
                             if (body.result.length === 0) {
-                                sendResponse('Что-то ничего не нашлось');
+                                fallbackIntent(app);
                                 return;
                             }
                             let result = body.result[0];
@@ -928,3 +964,4 @@ function processV1Request(prequest, presponse) {
     }
 
 }
+
