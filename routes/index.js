@@ -107,6 +107,10 @@ function processV1Request(prequest, presponse) {
             recommendIntent(app);
         },
 
+        'input.bestcartoons': () => {
+            bestcartoonsIntent(app);
+        },
+
         'input.kids': () => {
             kidsIntent(app);
         },
@@ -465,11 +469,19 @@ function processV1Request(prequest, presponse) {
     }
 
     function recommendIntent(app) {
-        console.log("in movies intent");
+        console.log("in recommend intent");
         let catalogId = "4655";
         let inputPrompt = 'Вот что я рекомендую';
         let url = "https://api.ivi.ru/mobileapi/collection/catalog/v5/?from=0&to=19&app_version=10942&id=" + catalogId;
         carouselByRequest(url, app, inputPrompt, ['Чем я могу помочь?', 'Новинки']);
+    }
+
+    function bestcartoonsIntent(app) {
+        console.log("in bestcartoons intent");
+        let catalogId = "995";
+        let inputPrompt = 'Вот лучшие мульфильмы последней недели';
+        let url = "https://api.ivi.ru/mobileapi/collection/catalog/v5/?from=0&to=19&app_version=10942&id=" + catalogId;
+        carouselByRequest(url, app, inputPrompt, ['Новинки', 'Порекомендуй что-нибудь', 'Чем я могу помочь?',]);
     }
 
     function carouselWithChips(app, inputPrompt, suggestions, carousel) {
