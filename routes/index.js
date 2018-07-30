@@ -472,15 +472,15 @@ function processV1Request(prequest, presponse) {
         console.log("in recommend intent");
         let catalogId = "4655";
         let inputPrompt = 'Вот что я рекомендую';
-        let url = "https://api.ivi.ru/mobileapi/collection/catalog/v5/?from=0&to=19&app_version=10942&id=" + catalogId;
+        let url = "https://api.ivi.ru/mobileapi/collection/catalog/v5/?from=0&to=19&sort=pop&app_version=10942&id=" + catalogId;
         carouselByRequest(url, app, inputPrompt, ['Чем я могу помочь?', 'Новинки']);
     }
 
     function bestcartoonsIntent(app) {
         console.log("in bestcartoons intent");
-        let catalogId = "995";
+        let catalogId = "1983";
         let inputPrompt = 'Вот лучшие мульфильмы последней недели';
-        let url = "https://api.ivi.ru/mobileapi/collection/catalog/v5/?from=0&to=19&app_version=10942&id=" + catalogId;
+        let url = "https://api.ivi.ru/mobileapi/collection/catalog/v5/?from=0&to=19&sort=pop&app_version=10942&id=" + catalogId;
         carouselByRequest(url, app, inputPrompt, ['Новинки', 'Порекомендуй что-нибудь', 'Чем я могу помочь?',]);
     }
 
@@ -560,7 +560,7 @@ function processV1Request(prequest, presponse) {
     }
 
     function carouselCatalog(id, app, inputPrompt, byId, suggestionChips) {
-        let reqURL = byId ? "https://api.ivi.ru/mobileapi/collection/catalog/v5/?app_version=10942&id=" + id :
+        let reqURL = byId ? "https://api.ivi.ru/mobileapi/collection/catalog/v5/?app_version=10942&sort=pop&id=" + id :
             "https://api.ivi.ru/mobileapi/catalogue/v5/?from=0&to=19&sort=pop&app_version=10942&category=" + id
         ;
         carouselByRequest(reqURL, app, inputPrompt, suggestionChips);
