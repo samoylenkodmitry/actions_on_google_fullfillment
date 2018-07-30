@@ -480,7 +480,7 @@ function processV1Request(prequest, presponse) {
         console.log("in bestcartoons intent");
         let catalogId = "1983";
         let inputPrompt = 'Вот лучшие мульфильмы последней недели';
-        let url = "https://api.ivi.ru/mobileapi/collection/catalog/v5/?from=0&to=19&sort=pop&app_version=10942&id=" + catalogId;
+        let url = "https://api.ivi.ru/mobileapi/collection/catalog/v5/?from=0&to=19&app_version=10942&id=" + catalogId;/*&sort=pop*/
         carouselByRequest(url, app, inputPrompt, ['Новинки', 'Порекомендуй что-нибудь', 'Чем я могу помочь?',]);
     }
 
